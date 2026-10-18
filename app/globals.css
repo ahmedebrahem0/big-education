@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 :root {
   --ink: #103b3b;
   --deep: #0b292b;
@@ -1547,8 +1548,9 @@ svg {
   height: 330px;
   inset-inline-end: 6%;
   top: 23%;
-  color: #d8b5a3;
-  opacity: 0.42;
+  color: #fff;
+  opacity: 1.42;
+  filter: drop-shadow(0 0 6px #fef5ff) drop-shadow(0 0 15px rgba(254, 245, 255, 0.7));
 }
 .process-motif {
   position: absolute;

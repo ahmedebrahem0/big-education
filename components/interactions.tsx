@@ -2,8 +2,9 @@
 import { useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
-import { ArrowUpRight } from "lucide-react";
 import { RoomStatic } from "./room-static";
+import { ArrowUpRight } from "lucide-react";
+import { AssemblyExperience } from "./assembly-experience";
 import { copy, contact, type Locale } from "@/content/site";
 const OrbitScene = dynamic(() => import("./orbit-scene"), {
   ssr: false,
@@ -29,7 +30,20 @@ export function Reveal({
     </motion.div>
   );
 }
-export function Approach({ locale }: { locale: Locale }) {
+export function Approach({
+  locale,
+  immersive = false,
+}: {
+  locale: Locale;
+  immersive?: boolean;
+}) {
+  return immersive ? (
+    <AssemblyExperience locale={locale} />
+  ) : (
+    <CompactApproach locale={locale} />
+  );
+}
+function CompactApproach({ locale }: { locale: Locale }) {
   const c = copy[locale];
   const [active, setActive] = useState(0);
   const reduced = useReducedMotion();

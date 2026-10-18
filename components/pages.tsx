@@ -123,7 +123,7 @@ export function Home({ locale }: { locale: Locale }) {
           </div>
         </Reveal>
       </section>
-      <Approach locale={locale} />
+      <Approach locale={locale} immersive />
       <Solutions locale={locale} />
       <Spaces locale={locale} />
       <Factory locale={locale} />
