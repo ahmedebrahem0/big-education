@@ -3,11 +3,11 @@ import { useState, type FormEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
 import { ArrowUpRight } from "lucide-react";
-import { BrandMotif } from "./brand-motif";
+import { RoomStatic } from "./room-static";
 import { copy, contact, type Locale } from "@/content/site";
 const OrbitScene = dynamic(() => import("./orbit-scene"), {
   ssr: false,
-  loading: () => <div className="orbit-fallback" />,
+  loading: () => <RoomStatic />,
 });
 export function Reveal({
   children,
@@ -84,32 +84,18 @@ export function Approach({ locale }: { locale: Locale }) {
           <p>{c.stepText[active]}</p>
         </div>
       </div>
-      <div className="orbit-visual" aria-hidden="true">
-        <BrandMotif className="process-motif" />
-        <svg className="process-blueprint" viewBox="0 0 400 230" fill="none">
-          <path d="M40 180 200 90 365 180 205 225Z" />
-          <path d="m110 120 85-45 95 48-84 48Zm0 0v48m96 3v44m84-92v46" />
-          <path d="m155 158 48 27 45-26v-40m-45 66v30" />
-          <circle cx="200" cy="90" r="5" />
-        </svg>
-        <div className="scene-canvas">
-          {reduced ? (
-            <div className="orbit-fallback" />
-          ) : (
-            <OrbitScene active={active} />
-          )}
-        </div>
-        <div className="orbit-word">
-          <strong>
-            360<span>°</span>
-          </strong>
-          <small>
+      <div className="orbit-visual room-visual" aria-hidden="true">
+        <div className="room-caption">
+          <span>
             {locale === "en"
-              ? "EVERY DETAIL. CONNECTED."
-              : "كل التفاصيل. مترابطة."}
-          </small>
+              ? "THE SAME SPACE. EVERY STAGE."
+              : "نفس المساحة. في كل مرحلة."}
+          </span>
+          <span>BIG / 0{active + 1}</span>
         </div>
-        <span className="orbit-corner">BIG / INTEGRATED THINKING</span>
+        <div className="scene-canvas">
+          <OrbitScene active={active} reduced={!!reduced} />
+        </div>
         <div className="process-state">
           <span>
             0{active + 1} / {c.steps[active]}
