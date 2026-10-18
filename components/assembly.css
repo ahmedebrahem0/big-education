@@ -1,0 +1,268 @@
+/* Homepage-only, native-scroll furniture assembly. Keep overflow off the sticky ancestor. */
+.assembly-experience {
+  position: relative;
+  height: 350svh;
+  background: #092d2e;
+  color: #f2f0e9;
+  overflow-anchor: none;
+}
+.assembly-experience.assembly-stable {
+  height: 100svh;
+}
+.assembly-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 540px;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    #255653 0%,
+    #123e3d 48%,
+    #092d2e 85%
+  );
+  overflow: hidden;
+}
+.assembly-header {
+  position: relative;
+  z-index: 2;
+  padding: clamp(85px, 12svh, 120px) 4vw 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  pointer-events: none;
+}
+.assembly-header h2 {
+  font-size: clamp(21px, 2.4vw, 36px);
+  letter-spacing: -0.04em;
+  margin-top: 10px;
+}
+.assembly-kicker {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #c8d6ce;
+}
+.assembly-skip {
+  pointer-events: auto;
+  font-size: 11px;
+  padding-block: 10px;
+  white-space: nowrap;
+  border-bottom: 1px solid #78908a;
+}
+.assembly-viewport {
+  position: absolute;
+  inset: 130px 0 150px;
+}
+.assembly-viewport > div {
+  width: 100%;
+  height: 100%;
+}
+.assembly-reference {
+  background: url("/images/training-room-reference.webp") center / contain
+    no-repeat;
+}
+.assembly-controls {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 0 4vw 24px;
+  background: linear-gradient(transparent, #092d2e 40%);
+}
+.assembly-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-block: 18px;
+}
+.assembly-caption > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.assembly-index {
+  color: #d9b78c;
+  font-size: 10px;
+  white-space: nowrap;
+  direction: ltr;
+}
+.assembly-caption p {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #e1e7df;
+}
+.assembly-whole {
+  background: transparent;
+  color: #f2e0c6;
+  padding: 8px 0;
+  border-bottom: 1px solid #8c9c88;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.assembly-progress {
+  height: 2px;
+  background: #ffffff24;
+  overflow: hidden;
+}
+.assembly-progress > div {
+  height: 100%;
+  background: #d9b78c;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+[dir="rtl"] .assembly-progress > div {
+  transform-origin: right;
+}
+.assembly-chapters {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.assembly-chapters button {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  text-align: start;
+  padding: 8px 0;
+  background: transparent;
+  color: #b5c8c1;
+  font-size: 11px;
+  line-height: 1.45;
+  transition: color 180ms;
+}
+.assembly-chapters button span {
+  font-size: 9px;
+  opacity: 0.75;
+}
+.assembly-chapters button[aria-current="step"],
+.assembly-chapters button:hover {
+  color: #ffe5bd;
+}
+.assembly-whole:hover,
+.assembly-skip:hover {
+  color: #fff;
+}
+.assembly-exit {
+  background: #092d2e;
+  color: #d9e2d9;
+  padding: 24px 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #ffffff20;
+  font-size: 11px;
+  scroll-margin-top: 90px;
+}
+.assembly-exit button {
+  color: #f2e0c6;
+  background: none;
+  font-size: 11px;
+  padding: 8px 0;
+}
+.assembly-static-note {
+  font-size: 11px;
+  padding-top: 14px;
+  color: #c8d6ce;
+}
+@media (max-width: 700px) {
+  .assembly-experience {
+    height: 220svh;
+  }
+  .assembly-stage {
+    height: clamp(520px, 74svh, 620px);
+    min-height: 520px;
+  }
+  .assembly-experience.assembly-stable {
+    height: clamp(520px, 74svh, 620px);
+  }
+  .assembly-header {
+    padding: 74px 6vw 0;
+    gap: 14px;
+  }
+  .assembly-header h2 {
+    font-size: 21px;
+    max-width: 230px;
+    line-height: 1.25;
+  }
+  .assembly-kicker {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+  .assembly-skip {
+    font-size: 9px;
+  }
+  .assembly-viewport {
+    inset: 140px 0 165px;
+  }
+  .assembly-controls {
+    padding: 0 6vw 20px;
+  }
+  .assembly-caption {
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 16px;
+  }
+  .assembly-caption > div {
+    display: block;
+  }
+  .assembly-caption p {
+    font-size: 11px;
+    max-width: 240px;
+    margin-top: 6px;
+  }
+  .assembly-whole {
+    font-size: 9px;
+    white-space: normal;
+    max-width: 105px;
+    flex-shrink: 0;
+  }
+  .assembly-chapters {
+    gap: 10px;
+  }
+  .assembly-chapters button {
+    display: block;
+    font-size: 9px;
+    min-height: 56px;
+  }
+  .assembly-chapters button span {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .assembly-exit {
+    padding: 20px 6vw;
+    font-size: 10px;
+  }
+}
+@media (max-height: 600px) and (min-width: 701px) {
+  .assembly-stage {
+    min-height: 400px;
+  }
+  .assembly-header {
+    padding-top: 65px;
+  }
+  .assembly-header h2 {
+    font-size: 20px;
+  }
+  .assembly-viewport {
+    inset: 100px 0 115px;
+  }
+  .assembly-controls {
+    padding-bottom: 10px;
+  }
+  .assembly-caption {
+    padding-block: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .assembly-experience {
+    height: 100svh;
+  }
+  .assembly-chapters button {
+    transition: none;
+  }
+}
