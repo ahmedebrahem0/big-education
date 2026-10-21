@@ -351,7 +351,7 @@ export function SpacesDial({ locale }: { locale: Locale }) {
               <g
                 key={name}
                 style={{
-                  transform: `rotate(${theta(i)}deg) translateY(${-(active === i ? R - 92 : R - 200)}px)`,
+                  transform: `rotate(${theta(i)}deg) translateY(${-(R - 84)}px)`,
                 }}
                 className="dl-label"
                 data-on={active === i}

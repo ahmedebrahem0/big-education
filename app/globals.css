@@ -3910,7 +3910,7 @@ html.intro-lock .animated-nav-logo *,
   position: absolute;
   left: 50%;
   top: calc(36% + min(20vh, 200px) + 10px);
-  height: calc(61% - 36% - min(20vh, 200px) - 14px);
+  height: calc(16% + var(--R) * 0.1111 - min(20vh, 200px) - 14px);
   width: 1px;
   background: linear-gradient(var(--ac), transparent);
   opacity: 0.8;
@@ -3929,7 +3929,7 @@ html.intro-lock .animated-nav-logo *,
 .dl-wheel {
   position: absolute;
   left: 50%;
-  top: 62%;
+  top: 52%;
   width: calc(var(--R) * 2.2222);
   height: calc(var(--R) * 2.2222);
   margin-left: calc(var(--R) * -1.1111);
@@ -4085,5 +4085,6 @@ html.intro-lock .animated-nav-logo *,
     transition: none;
   }
 }
+/* */
 /* */
 /* */
