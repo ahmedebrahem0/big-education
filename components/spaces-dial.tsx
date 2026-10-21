@@ -331,7 +331,7 @@ export function SpacesDial({ locale }: { locale: Locale }) {
         </div>
 
         <i className="dl-pin" aria-hidden="true" />
-        <div className="dl-wheel" aria-hidden="true">
+        <div className="dl-wheel" aria-hidden="true" style={{ pointerEvents: "none" }}>
           <svg viewBox="-1000 -1000 2000 2000">
             <circle r={R} className="dl-rim" />
             <circle r={R - 130} className="dl-rim dl-thin" />
@@ -350,10 +350,9 @@ export function SpacesDial({ locale }: { locale: Locale }) {
             {names.map((name, i) => (
               <g
                 key={name}
-                style={{
-                  transform: `rotate(${theta(i)}deg) translateY(${-(R - 84)}px)`,
-                }}
+                transform={`rotate(${theta(i)}) translate(0 ${-(R - 84)})`}
                 className="dl-label"
+                style={{ pointerEvents: "auto" }}
                 data-on={active === i}
                 data-far={Math.abs(i - active) > 2}
                 onClick={() => jump.current(i)}
