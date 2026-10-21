@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { copy, contact, coreValues, type Locale } from "@/content/site";
 import { Approach, Reveal, ContactForm } from "./interactions";
-import { SpacesScene } from "./spaces-scene";
+import { SpacesDial } from "./spaces-dial";
 import { BrandMotif } from "./brand-motif";
 import { HeroFx } from "./hero-fx";
 import { Story, Pillars } from "./story";
@@ -128,7 +128,7 @@ export function Home({ locale }: { locale: Locale }) {
       <Story locale={locale} />
       <Pillars locale={locale} />
       <Approach locale={locale} immersive />
-      <SpacesScene locale={locale} />
+      <SpacesDial locale={locale} />
       <Media locale={locale} />
       <Factory locale={locale} />
       <Emergency locale={locale} />
