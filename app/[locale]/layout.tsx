@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { Header, Footer } from "@/components/chrome";
+import { IntroLoader } from "@/components/intro-loader";
 import { copy, type Locale } from "@/content/site";
 import "../globals.css";
 const alexandria = localFont({
@@ -25,6 +26,7 @@ export default async function LocaleLayout({
       className={alexandria.variable}
     >
       <body>
+        <IntroLoader />
         <a className="skip-link" href="#main">
           {copy[l].skip}
         </a>

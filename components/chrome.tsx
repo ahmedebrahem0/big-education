@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
+import { AnimatedNavLogo } from "./animated-nav-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { contact, copy, type Locale } from "@/content/site";
 export function Header({ locale }: { locale: Locale }) {
@@ -11,11 +12,88 @@ export function Header({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false);
   const panel = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const header = useRef<HTMLElement>(null);
+  const nav = useRef<HTMLElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [section, setSection] = useState("top");
   const links = [
     ["solutions", c.nav[0]],
-    ["about", c.nav[1]],
-    ["emergency-education", c.nav[2]],
+    ["vision", c.nav[1]],
+    ["emergency", c.nav[2]],
   ];
+  // Which nav link owns each page section (scrollspy).
+  const owner: Record<string, string> = {
+    "big-picture": "vision",
+    vision: "vision",
+    approach: "solutions",
+    solutions: "solutions",
+    spaces: "solutions",
+    media: "solutions",
+    factory: "solutions",
+    emergency: "emergency",
+  };
+  const current = owner[section];
+
+  // Scroll state: glass after the hero top, hide when scrolling down, progress line.
+  useEffect(() => {
+    let last = window.scrollY;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const y = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      header.current?.style.setProperty("--sp", String(max > 0 ? y / max : 0));
+      setScrolled(y > 40);
+      if (y > 400 && y > last + 4) setHidden(true);
+      else if (y < last - 4 || y <= 400) setHidden(false);
+      last = y;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  useEffect(() => {
+    const ids = ["top", ...Object.keys(owner)];
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries)
+          if (e.isIntersecting) setSection(e.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    });
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sliding underline under the active link.
+  useLayoutEffect(() => {
+    const place = () => {
+      const bar = nav.current;
+      if (!bar) return;
+      const el = current
+        ? bar.querySelector<HTMLElement>(`[data-id="${current}"]`)
+        : null;
+      bar.style.setProperty("--ux", el ? `${el.offsetLeft}px` : "0px");
+      bar.style.setProperty("--uw", el ? `${el.offsetWidth}px` : "0px");
+      bar.dataset.on = el ? "1" : "0";
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [current, locale]);
+
   useEffect(() => {
     if (!open) return;
     const old = document.body.style.overflow;
@@ -51,29 +129,31 @@ export function Header({ locale }: { locale: Locale }) {
     locale === "en" ? "/ar" : "/en",
   );
   return (
-    <header className="site-header">
+    <header
+      className="site-header"
+      ref={header}
+      data-scrolled={scrolled}
+      data-hidden={hidden && !open}
+    >
       <Link href={`/${locale}`} aria-label="BIG Education" className="logo">
-        <Image
-          src="/brand/logo.svg"
-          width={156}
-          height={55}
-          alt="BIG Education"
-          preload
-        />
+        <AnimatedNavLogo />
       </Link>
       <nav
+        ref={nav}
         className="desktop-nav"
         aria-label={locale === "ar" ? "التنقل الرئيسي" : "Main navigation"}
       >
         {links.map(([p, t]) => (
           <Link
             key={p}
-            href={`/${locale}/${p}`}
-            aria-current={pathname === `/${locale}/${p}` ? "page" : undefined}
+            data-id={p}
+            href={`/${locale}#${p}`}
+            aria-current={current === p ? "location" : undefined}
           >
             {t}
           </Link>
         ))}
+        <span className="nav-indicator" aria-hidden="true" />
       </nav>
       <div className="header-actions">
         <Link
@@ -83,7 +163,7 @@ export function Header({ locale }: { locale: Locale }) {
         >
           {locale === "en" ? "العربية" : "EN"}
         </Link>
-        <Link className="header-contact" href={`/${locale}/contact`}>
+        <Link className="header-contact" href={`/${locale}#contact`}>
           {c.nav[3]} <ArrowUpRight size={17} />
         </Link>
         <button
@@ -97,6 +177,7 @@ export function Header({ locale }: { locale: Locale }) {
           <Menu />
         </button>
       </div>
+      <i className="header-progress" aria-hidden="true" />
       {open && (
         <div
           id="mobile-menu"
@@ -117,13 +198,13 @@ export function Header({ locale }: { locale: Locale }) {
             <Link
               onClick={() => setOpen(false)}
               key={p}
-              href={`/${locale}/${p}`}
+              href={`/${locale}#${p}`}
             >
               {t}
               <ArrowUpRight />
             </Link>
           ))}
-          <Link onClick={() => setOpen(false)} href={`/${locale}/contact`}>
+          <Link onClick={() => setOpen(false)} href={`/${locale}#contact`}>
             {c.nav[3]}
             <ArrowUpRight />
           </Link>
@@ -172,9 +253,9 @@ export function Footer({ locale }: { locale: Locale }) {
         <nav
           aria-label={locale === "ar" ? "روابط أسفل الصفحة" : "Footer links"}
         >
-          <Link href={`/${locale}/solutions`}>{c.nav[0]}</Link>
-          <Link href={`/${locale}/about`}>{c.nav[1]}</Link>
-          <Link href={`/${locale}/contact`}>{c.nav[3]}</Link>
+          <Link href={`/${locale}#solutions`}>{c.nav[0]}</Link>
+          <Link href={`/${locale}#vision`}>{c.nav[1]}</Link>
+          <Link href={`/${locale}#contact`}>{c.nav[3]}</Link>
         </nav>
         <a href={contact.group} target="_blank" rel="noreferrer">
           BIG Group <ArrowUpRight size={16} />

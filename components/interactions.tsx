@@ -132,7 +132,7 @@ export function Spaces({ locale }: { locale: Locale }) {
   const c = copy[locale];
   const [active, setActive] = useState(0);
   return (
-    <section className="spaces section-pad">
+    <section className="spaces section-pad" id="spaces">
       <span className="eyebrow">{c.spacesLabel}</span>
       <div className="section-heading">
         <h2>{c.spacesTitle}</h2>

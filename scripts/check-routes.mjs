@@ -1,5 +1,5 @@
 const origin = process.env.SITE_TEST_ORIGIN || "http://localhost:3000";
-const paths = ["", "/about", "/solutions", "/solutions/educational-spaces", "/solutions/educational-media", "/emergency-education", "/contact"];
+const paths = ["", "/about", "/solutions", "/solutions/educational-spaces", "/solutions/educational-media", "/emergency-education", "/contact"]; // legacy URLs redirect to anchors
 let failed = 0;
 for (const locale of ["en", "ar"]) {
   for (const path of paths) {

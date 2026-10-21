@@ -130,9 +130,11 @@
   padding: 8px 0;
   background: transparent;
   color: #b5c8c1;
+  position: relative;
+  font-weight: 450;
   font-size: 11px;
   line-height: 1.45;
-  transition: color 180ms;
+  transition: color 220ms, font-weight 220ms, transform 220ms;
 }
 .assembly-chapters button span {
   font-size: 9px;
@@ -140,7 +142,29 @@
 }
 .assembly-chapters button[aria-current="step"],
 .assembly-chapters button:hover {
-  color: #ffe5bd;
+  color: #fff3d8;
+  font-weight: 700;
+  transform: translateY(-2px);
+}
+.assembly-chapters button[aria-current="step"]::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: -9px;
+  height: 3px;
+  background: #d8b5a3;
+  box-shadow: 0 0 14px rgba(216, 181, 163, 0.7);
+  transform-origin: center;
+  animation: chapter-pulse 1.8s ease-in-out infinite;
+}
+.assembly-chapters button[aria-current="step"] span {
+  color: #d8b5a3;
+  opacity: 1;
+  font-weight: 700;
+}
+@keyframes chapter-pulse {
+  0%, 100% { opacity: 0.72; transform: scaleX(0.82); }
+  50% { opacity: 1; transform: scaleX(1); }
 }
 .assembly-whole:hover,
 .assembly-skip:hover {
@@ -264,5 +288,8 @@
   }
   .assembly-chapters button {
     transition: none;
+  }
+  .assembly-chapters button[aria-current="step"]::after {
+    animation: none;
   }
 }

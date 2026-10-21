@@ -5,15 +5,7 @@ export const contact = {
   group: "https://www.big-egypt.com",
   emergency: "https://www.big-school-in-a-box.com",
 };
-export const paths = [
-  "",
-  "about",
-  "solutions",
-  "solutions/educational-spaces",
-  "solutions/educational-media",
-  "emergency-education",
-  "contact",
-];
+export const paths = [""];
 export const coreValues = {
   en: [
     [
@@ -150,7 +142,7 @@ export const copy = {
         category: "EDUCATIONAL SPACES",
         text: "Intelligent furniture and thoughtfully equipped environments. From classrooms and libraries to STEM labs and immersive learning.",
         image: "hero",
-        path: "solutions/educational-spaces",
+        path: "spaces",
         items: [
           "Classrooms & smart furniture",
           "STEM, AI & immersive learning",
@@ -162,7 +154,7 @@ export const copy = {
         category: "EDUCATIONAL MEDIA",
         text: "Educational content and institutional visual storytelling that make complex ideas clear and meaningful.",
         image: "media",
-        path: "solutions/educational-media",
+        path: "media",
         items: [
           "Educational content production",
           "Institutional visual storytelling",
@@ -174,7 +166,7 @@ export const copy = {
         category: "EMERGENCY EDUCATION",
         text: "Agile educational environments for challenging conditions. Helping learning continue where it is needed most.",
         image: "emergency",
-        path: "emergency-education",
+        path: "emergency",
         items: [
           "BIG SCHOOL IN A BOX",
           "Integrated logistical planning",
@@ -291,7 +283,7 @@ export const copy = {
     close: "إغلاق",
     skip: "انتقل إلى المحتوى",
     eyebrow: "نصمم اليوم إمكانات الغد",
-    headline: ["نصنع التعليم.", "حيث يحتاجه", "العالم."],
+    headline: ["نصنع التعليم", "حيث يحتاجه", "العالم"],
     intro:
       "من الفكرة الأولى إلى أدق التفاصيل. نصمم ونصنّع ونجهّز بيئات تفتح آفاقًا جديدة للتعلم.",
     since: "نبني الإمكانات منذ ٢٠١٨",
@@ -299,11 +291,11 @@ export const copy = {
     scroll: "مرّر لتكتشف",
     next: "التالي / الصورة الأكبر",
     aboutLabel: "٠١ / الصورة الأكبر",
-    aboutTitle: "رؤية كبيرة.\nوأثر ملموس.",
+    aboutTitle: "رؤية كبيرة\nوأثر ملموس.",
     aboutText:
       "يستحق التعليم منظومة متكاملة. منذ تأسيس BIG Education في ٢٠١٨، نجمع التصميم والتصنيع والتنفيذ لنحوّل الأفكار الطموحة إلى بيئات يزدهر فيها التعلم.",
     approachLabel: "٠٢ / تكامل يبدأ من التصميم",
-    approachTitle: "رؤية واحدة.\nبكل أبعادها.",
+    approachTitle: "رؤية واحدة\nبكل أبعادها.",
     approachText:
       "شراكة متكاملة بزاوية ٣٦٠°، تبدأ بفهم احتياجاتك وتمتد لدعم خطواتك القادمة.",
     steps: ["نفهم", "نصمم", "نصنّع", "نجهّز", "ندعم"],
@@ -324,7 +316,7 @@ export const copy = {
         category: "البيئات التعليمية",
         text: "أثاث ذكي وبيئات مجهّزة بعناية؛ من الفصول والمكتبات إلى معامل العلوم وتجارب التعلم الغامرة.",
         image: "hero",
-        path: "solutions/educational-spaces",
+        path: "spaces",
         items: [
           "الفصول والأثاث الذكي",
           "معامل STEM والذكاء الاصطناعي",
@@ -336,7 +328,7 @@ export const copy = {
         category: "الإعلام التعليمي",
         text: "محتوى تعليمي وقصص بصرية للمؤسسات، تحول الأفكار المعقدة إلى تجارب واضحة ومؤثرة.",
         image: "media",
-        path: "solutions/educational-media",
+        path: "media",
         items: [
           "إنتاج المحتوى التعليمي",
           "السرد البصري المؤسسي",
@@ -348,7 +340,7 @@ export const copy = {
         category: "التعليم في الطوارئ",
         text: "بيئات تعليمية مرنة للظروف الصعبة، تساعد التعلم على الاستمرار حيث تشتد الحاجة إليه.",
         image: "emergency",
-        path: "emergency-education",
+        path: "emergency",
         items: [
           "BIG SCHOOL IN A BOX",
           "التخطيط اللوجستي المتكامل",
