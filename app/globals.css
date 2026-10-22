@@ -4040,12 +4040,15 @@ html.intro-lock .animated-nav-logo *,
     padding: 6px 0 8px;
   }
   .dl-lens {
-    top: 33%;
-    width: min(44vw, 190px);
-    height: min(44vw, 190px);
+    /* Give the heading/tabs, illustration and copy their own vertical rows.
+       Percentage-only positioning made the illustration climb into the tabs
+       on short phones. */
+    top: clamp(265px, 36svh, 305px);
+    width: min(38vw, 160px);
+    height: min(38vw, 160px);
   }
   .dl-info {
-    top: 47%;
+    top: clamp(355px, 50svh, 430px);
     inset-inline: 22px;
     width: auto;
   }
@@ -4074,6 +4077,98 @@ html.intro-lock .animated-nav-logo *,
   }
   .dl-label[data-on="true"] text {
     font-size: 30px;
+  }
+  .dl-chap {
+    display: none;
+  }
+}
+@media (max-width: 760px) and (max-height: 620px) {
+  .dl-top {
+    top: 62px;
+  }
+  .dl-top h2 {
+    font-size: 20px;
+  }
+  .dl-chapters {
+    margin-top: 6px;
+  }
+  .dl-info {
+    top: 335px;
+  }
+  .dl-info h3 {
+    font-size: 19px;
+  }
+  .dl-info p {
+    display: none;
+  }
+  .dl-nav {
+    margin-top: 9px;
+  }
+  .dl-nav button {
+    width: 32px;
+    height: 32px;
+  }
+}
+@media (min-width: 700px) and (max-width: 1024px) and (orientation: portrait) {
+  .dl {
+    --R: 72vw;
+    height: 620vh;
+  }
+  .dl-top {
+    top: 84px;
+    inset-inline: 50px;
+    width: auto;
+  }
+  .dl-top h2 {
+    max-width: 470px;
+    font-size: clamp(34px, 5vw, 44px);
+  }
+  .dl-chapters {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .dl-chapter {
+    flex-direction: column;
+    gap: 3px;
+    padding: 7px 0 10px;
+  }
+  .dl-lens {
+    top: clamp(395px, 45svh, 495px);
+    width: min(34vw, 280px);
+    height: min(34vw, 280px);
+  }
+  .dl-info {
+    top: clamp(590px, 59svh, 690px);
+    inset-inline: auto;
+    left: 50%;
+    right: auto;
+    translate: -50% 0;
+    width: min(520px, calc(100% - 100px));
+    text-align: center;
+  }
+  .dl-info h3 {
+    font-size: clamp(27px, 4vw, 34px);
+  }
+  .dl-info p {
+    margin-inline: auto;
+    max-width: 480px;
+  }
+  .dl-nav {
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .dl-pin {
+    display: none;
+  }
+  .dl-wheel {
+    top: 78%;
+  }
+  .dl-label text {
+    font-size: 27px;
+  }
+  .dl-label[data-on="true"] text {
+    font-size: 31px;
   }
   .dl-chap {
     display: none;
