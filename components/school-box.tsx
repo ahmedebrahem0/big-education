@@ -331,7 +331,7 @@ export function SchoolBox({ locale }: { locale: Locale }) {
                   className="sb-ring"
                 >
                   <circle pathLength={1} cx={st.x} cy={st.y} r="72" />
-                  <text x={st.x + (st.x - 160) * 0.4} y={st.y + (st.y - 144) * 0.3} textAnchor="middle">
+                  <text x={st.x + (st.x - 160) * 0.15} y={st.y + (st.y - 144) * 0.3} textAnchor="middle">
                     {st.name}
                   </text>
                 </g>

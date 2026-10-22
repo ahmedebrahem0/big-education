@@ -1208,7 +1208,7 @@ svg {
     gap: 40px;
   }
   .panel-copy h3 {
-    font-size: 23px;
+    font-size: 22px;
   }
   .footer-links nav {
     gap: 15px;
@@ -1890,7 +1890,7 @@ summary:focus-visible {
     gap: 16px;
   }
   .space-list summary h3 {
-    font-size: 23px;
+    font-size: 22px;
   }
   .space-list details p {
     font-size: 14px;
@@ -5290,7 +5290,7 @@ html.intro-lock .animated-nav-logo *,
     letter-spacing: 0.1em;
   }
   .sb-ring text {
-    font-size: 23px;
+    font-size: 22px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5328,4 +5328,5 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 
+/* */
 /* */
