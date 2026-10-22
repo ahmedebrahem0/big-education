@@ -5350,16 +5350,6 @@ html.intro-lock .animated-nav-logo *,
   background: var(--bg);
   color: var(--fg);
 }
-.pl:before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 160px;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(#267372, var(--bg));
-}
 .pl[data-static] {
   height: auto;
 }
@@ -5693,4 +5683,5 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 
+/* */
 /* */
