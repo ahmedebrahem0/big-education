@@ -227,20 +227,13 @@ export function Footer({ locale }: { locale: Locale }) {
   const ar = locale === "ar";
   return (
     <footer className="footer">
-      <div className="footer-top">
-        <Link href={`/${locale}`} className="footer-logo" aria-label="BIG Education">
-          <AnimatedNavLogo />
-        </Link>
-        <p>{c.footer}</p>
-        <a
-          className="back-top"
-          href="#main"
-          aria-label={ar ? "إلى أعلى الصفحة" : "Back to top"}
-        >
-          ↑
-        </a>
-      </div>
       <div className="footer-cols">
+        <div className="footer-brand">
+          <Link href={`/${locale}`} className="footer-logo" aria-label="BIG Education">
+            <AnimatedNavLogo />
+          </Link>
+          <p>{c.footer}</p>
+        </div>
         <div className="footer-col">
           <span>{c.email}</span>
           <a href={`mailto:${contact.email}`}>
@@ -278,6 +271,13 @@ export function Footer({ locale }: { locale: Locale }) {
         <span>© {c.rights}</span>
         <span>{c.concept}</span>
         <span>EGYPT · {ar ? "إلى العالم" : "BUILT FOR THE WORLD"}</span>
+        <a
+          className="back-top"
+          href="#main"
+          aria-label={ar ? "إلى أعلى الصفحة" : "Back to top"}
+        >
+          ↑
+        </a>
       </div>
     </footer>
   );
