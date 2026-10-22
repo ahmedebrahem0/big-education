@@ -252,7 +252,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <span>{c.call}</span>
           {contact.phones.map((p) => (
             <a key={p} href={`tel:${p}`} dir="ltr">
-              {p.replace(/(d{3})(d{2})(d{4})(d{2})/, "$1 $2 $3 $4")}
+              {p.replace(/(\d{3})(\d{2})(\d{4})(\d{2})/, "$1 $2 $3 $4")}
               <ArrowUpRight size={15} />
             </a>
           ))}
