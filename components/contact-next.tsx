@@ -290,7 +290,7 @@ function Brief({ locale }: { locale: Locale }) {
   const chosen = picked.map((i) => ui.opts[i]).join(", ");
   const subject = "BIG Education — Project enquiry";
   const to = contact.formTo;
-  const body = `${chosen ? chosen + "\n\n" : ""}${msg}\n\n${name}\n${org}`.trim();
+  const body = `${chosen ? chosen + "\r\n\r\n" : ""}${msg}\r\n\r\n${name}\r\n${org}`.trim();
   const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   function toggle(i: number) {
@@ -364,19 +364,26 @@ function Brief({ locale }: { locale: Locale }) {
     requestAnimationFrame(step);
   }
 
+  // open the mail app right inside the click: phones drop mailto links that fire after a delay
+  function openMail() {
+    const a = document.createElement("a");
+    a.href = mailto;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (phase !== "idle") return;
+    openMail();
     if (reduced) {
-      window.location.href = mailto;
       setPhase("sent");
       return;
     }
     setPhase("flying");
-    fly(() => {
-      window.location.href = mailto;
-      setPhase("sent");
-    });
+    fly(() => setPhase("sent"));
   }
 
   function reset() {
