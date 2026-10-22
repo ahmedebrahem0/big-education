@@ -82,7 +82,8 @@ const UI = {
   en: {
     std: "STANDARD",
     smart: "SMART",
-    gate: "QUALITY GATE",
+    gate: "QUALITY GATES",
+    coats: ["BASE COAT", "COLOUR", "GLOSS"],
     tags: {
       back: "BACKREST",
       seat: "SEAT",
@@ -95,7 +96,8 @@ const UI = {
   ar: {
     std: "قياسي",
     smart: "ذكي",
-    gate: "بوابة الجودة",
+    gate: "بوابات الجودة",
+    coats: ["الطبقة الأساس", "اللون", "التلميع"],
     tags: {
       back: "مسند الظهر",
       seat: "المقعد",
@@ -106,6 +108,21 @@ const UI = {
     },
   },
 };
+
+// the three gates are three finishing passes: base coat, colour coat, gloss
+type RGB = [number, number, number];
+const RAW: RGB = [226, 222, 208];
+const COATS: RGB[] = [
+  [182, 212, 202], // base coat: brand mint
+  [59, 146, 140], // colour coat: brand bright teal
+  [24, 92, 94], // gloss coat deepens the colour to a rich teal
+];
+const SCAN = ["#b6d4ca", "#3b928c", "#ffffff"];
+const mixc = (a: RGB, b: RGB, m: number): RGB => [
+  a[0] + (b[0] - a[0]) * m,
+  a[1] + (b[1] - a[1]) * m,
+  a[2] + (b[2] - a[2]) * m,
+];
 
 type Geo = { a: number[]; b: number[]; len: number[] };
 
@@ -164,13 +181,25 @@ export function FactoryCut({ locale }: { locale: Locale }) {
     }
     set("--ho", live ? 1 : 0);
     let sweep = 0;
+    const band: number[] = [];
     GATES.forEach(([a, b], k) => {
       const q = win(s, a, b);
       set(`--g${k}`, smooth(q));
+      band.push(q <= 0 ? -Infinity : q >= 1 ? Infinity : -60 + q * 1120 + 30);
       if (q > 0 && q < 1) {
         sweep = 1;
         set("--sx", -60 + q * 1120);
+        el.style.setProperty("--sc", SCAN[k]);
       }
+    });
+    // each part takes a coat once the band has passed over it
+    PARTS.forEach((p, i) => {
+      const a = band.map((bx) => smooth(clamp((bx - p.cx + 70) / 140)));
+      let col = mixc(RAW, COATS[0], a[0]);
+      col = mixc(col, COATS[1], a[1]);
+      col = mixc(col, COATS[2], a[2]);
+      el.style.setProperty(`--pt${i}`, `rgb(${col.map((v) => Math.round(v)).join(",")})`);
+      set(`--gl${i}`, a[2]);
     });
     set("--so", sweep);
     set("--ok", smooth(win(s, 0.95, 0.99)));
@@ -185,7 +214,12 @@ export function FactoryCut({ locale }: { locale: Locale }) {
   });
 
   const vars = (i: number, dz: number) =>
-    ({ "--c": `var(--c${i})`, "--dz": `${dz}px` }) as CSSProperties;
+    ({
+      "--c": `var(--c${i})`,
+      "--pt": `var(--pt${i})`,
+      "--gl": `var(--gl${i})`,
+      "--dz": `${dz}px`,
+    }) as CSSProperties;
 
   return (
     <section
@@ -227,8 +261,14 @@ export function FactoryCut({ locale }: { locale: Locale }) {
         >
           <defs>
             <linearGradient id="fcScan" x1="0" x2="1">
-              <stop offset="0" stopColor="var(--ac)" stopOpacity="0" />
-              <stop offset="1" stopColor="var(--ac)" stopOpacity="0.5" />
+              <stop offset="0" stopColor="var(--sc)" stopOpacity="0" />
+              <stop offset="0.8" stopColor="var(--sc)" stopOpacity="0.45" />
+              <stop offset="1" stopColor="var(--sc)" stopOpacity="0.95" />
+            </linearGradient>
+            <linearGradient id="fcGloss" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stopColor="#fff" stopOpacity="0.85" />
+              <stop offset="0.45" stopColor="#fff" stopOpacity="0.08" />
+              <stop offset="1" stopColor="#fff" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -258,6 +298,8 @@ export function FactoryCut({ locale }: { locale: Locale }) {
                 d={p.t}
                 className={p.screen ? "fc-fill fc-ft fc-screen" : "fc-fill fc-ft"}
               />
+              <path d={p.t} className="fc-gloss" fill="url(#fcGloss)" />
+              <path d={p.r} className="fc-gloss fc-gloss-r" fill="url(#fcGloss)" />
               <g className="fc-ghost">
                 <path d={p.l} />
                 <path d={p.r} />
@@ -298,7 +340,10 @@ export function FactoryCut({ locale }: { locale: Locale }) {
               {ui.gate}
             </text>
             {[0, 1, 2].map((k) => (
-              <g key={k} transform={`translate(${52 + k * 46} 624)`}>
+              <g key={k} transform={`translate(${52 + k * 190} 624)`}>
+                <text x="24" y="4" className="fc-coat">
+                  {ui.coats[k]}
+                </text>
                 <circle r="13" className="fc-lamp-ring" />
                 <circle
                   r="13"

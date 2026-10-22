@@ -4745,13 +4745,28 @@ html.intro-lock .animated-nav-logo *,
   stroke: none;
 }
 .fc-fl {
-  fill: color-mix(in srgb, var(--ac) calc(16% + var(--ok, 0) * 22%), var(--bg));
+  fill: color-mix(in srgb, var(--pt, #e2decf) 84%, #0b292b);
 }
 .fc-fr {
-  fill: color-mix(in srgb, var(--ac) calc(34% + var(--ok, 0) * 28%), var(--bg));
+  fill: color-mix(in srgb, var(--pt, #e2decf) 68%, #0b292b);
 }
 .fc-ft {
-  fill: color-mix(in srgb, #fff 60%, var(--bg));
+  fill: color-mix(in srgb, var(--pt, #e2decf) 82%, #fff);
+}
+.fc-gloss {
+  stroke: none;
+  pointer-events: none;
+  opacity: calc(var(--gl, 0) * var(--c, 0) * 0.75);
+}
+.fc-gloss-r {
+  opacity: calc(var(--gl, 0) * var(--c, 0) * 0.3);
+}
+.fc-coat {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  fill: var(--fg);
+  opacity: 0.6;
 }
 .fc-ft.fc-screen {
   fill: color-mix(in srgb, var(--ac) 50%, #fff);
@@ -4805,6 +4820,9 @@ html.intro-lock .animated-nav-logo *,
   fill: var(--ac);
   transform: translate(calc(var(--hx, 0) * 1px), calc(var(--hy, 0) * 1px));
   filter: drop-shadow(0 0 6px var(--ac)) drop-shadow(0 0 16px var(--ac));
+}
+.fc {
+  --sc: #b6d4ca;
 }
 .fc-scan {
   opacity: var(--so, 0);
@@ -5123,6 +5141,9 @@ html.intro-lock .animated-nav-logo *,
 .sb:after {
   display: none;
 }
+/* */
+
+/* */
 /* */
 
 /* */
