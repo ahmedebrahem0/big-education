@@ -67,6 +67,8 @@ const UI = {
     subject: "Project enquiry",
     from: "From",
     placeholder: "Your message will appear here as you write it.",
+    peek: "Preview your message",
+    close: "Close",
   },
   ar: {
     steps: ["المساحات", "الإعلام", "المصنع", "الطوارئ", "القيم", "مشروعك"],
@@ -83,6 +85,8 @@ const UI = {
     subject: "استفسار عن مشروع",
     from: "من",
     placeholder: "ستظهر رسالتك هنا وأنت تكتبها.",
+    peek: "معاينة رسالتك",
+    close: "إغلاق",
   },
 };
 
@@ -276,7 +280,9 @@ function Brief({ locale }: { locale: Locale }) {
   const rtl = locale === "ar";
   const reduced = useReducedMotion();
   const sec = useRef<HTMLElement>(null);
-  const letter = useRef<HTMLElement>(null);
+  const sky = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [inView, setInView] = useState(false);
   const plane = useRef<SVGGElement>(null);
   const trail = useRef<SVGPathElement>(null);
   const [picked, setPicked] = useState<number[]>([]);
@@ -299,7 +305,7 @@ function Brief({ locale }: { locale: Locale }) {
 
   function fly(done: () => void) {
     const s = sec.current;
-    const l = letter.current;
+    const l = sky.current;
     const g = plane.current;
     const tr = trail.current;
     if (!s || !l || !g || !tr) {
@@ -312,9 +318,9 @@ function Brief({ locale }: { locale: Locale }) {
     const sx = L.left - S.left + L.width / 2;
     const sy = L.top - S.top + L.height / 2;
     const ex = rtl ? -140 : S.width + 140;
-    const ey = -170;
+    const ey = -S.top - 140;
     const p0 = [sx, sy];
-    const p1 = [sx + dir * 170, sy + 150];
+    const p1 = [sx + dir * 170, sy + clamp(window.innerHeight - (S.top + sy) - 40, 30, 150)];
     const p2 = [(sx + ex) / 2, ey + 120];
     const p3 = [ex, ey];
     const pt = (t: number) => {
@@ -378,6 +384,7 @@ function Brief({ locale }: { locale: Locale }) {
     e.preventDefault();
     if (phase !== "idle") return;
     openMail();
+    setOpen(false);
     if (reduced) {
       setPhase("sent");
       return;
@@ -387,6 +394,7 @@ function Brief({ locale }: { locale: Locale }) {
   }
 
   function reset() {
+    setOpen(false);
     setName("");
     setOrg("");
     setMsg("");
@@ -398,8 +406,32 @@ function Brief({ locale }: { locale: Locale }) {
     if (phase === "idle" && plane.current) plane.current.style.opacity = "0";
   }, [phase]);
 
+  // the phone preview button only shows while this section is on screen
+  useEffect(() => {
+    const el = sec.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([en]) => setInView(en.isIntersecting), {
+      threshold: 0.05,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <section className="cn-brief" id="contact" ref={sec} data-phase={phase}>
+    <section
+      className="cn-brief"
+      id="contact"
+      ref={sec}
+      data-phase={phase}
+      data-inview={inView}
+    >
+      <div className="cn-scrim" data-open={open} onClick={() => setOpen(false)} />
       <div className="cn-brief-grid">
         <div className="cn-form-col">
           <span className="eyebrow">{ui.contactUs}</span>
@@ -482,7 +514,14 @@ function Brief({ locale }: { locale: Locale }) {
           )}
         </div>
 
-        <div className="cn-sky" aria-hidden="true">
+        <div className="cn-sky" ref={sky}>
+          <button
+            type="button"
+            className="cn-mini"
+            data-filled={!empty}
+            aria-label={ui.peek}
+            onClick={() => setOpen(true)}
+          />
           <svg
             className="cn-ball"
             viewBox="-90 -90 180 180"
@@ -495,7 +534,20 @@ function Brief({ locale }: { locale: Locale }) {
               <path d={BALL.outline} className="cn-ball-edge" />
             </g>
           </svg>
-          <article className="cn-letter" ref={letter} data-state={state}>
+          <article
+            className="cn-letter"
+            data-state={state}
+            data-open={open}
+            onClick={() => setOpen(false)}
+          >
+            <button
+              type="button"
+              className="cn-close"
+              aria-label={ui.close}
+              onClick={() => setOpen(false)}
+            >
+              ×
+            </button>
             <header>
               <svg viewBox="20 55 200 200" className="cn-letter-mark">
                 <path d={MARK_A} />
