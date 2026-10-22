@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { copy, contact, coreValues, type Locale } from "@/content/site";
-import { Approach, Reveal, ContactForm } from "./interactions";
+import { Approach, ContactForm } from "./interactions";
 import { SpacesDial } from "./spaces-dial";
 import { MediaPulse } from "./media-pulse";
+import { FactoryCut } from "./factory-cut";
+import { SchoolBox } from "./school-box";
 import { BrandMotif } from "./brand-motif";
 import { HeroFx } from "./hero-fx";
 import { Story, Pillars } from "./story";
@@ -131,74 +133,11 @@ export function Home({ locale }: { locale: Locale }) {
       <Approach locale={locale} immersive />
       <SpacesDial locale={locale} />
       <MediaPulse locale={locale} />
-      <Factory locale={locale} />
-      <Emergency locale={locale} />
+      <FactoryCut locale={locale} />
+      <SchoolBox locale={locale} />
       <Values locale={locale} />
       <Contact locale={locale} />
     </main>
-  );
-}
-function Factory({ locale }: { locale: Locale }) {
-  const c = copy[locale];
-  return (
-    <section className="factory" id="factory">
-      <div className="factory-image">
-        <Photo name="factory" />
-        <div className="image-caption">
-          BIG / {locale === "en" ? "INDUSTRIAL INTELLIGENCE" : "ذكاء صناعي"}
-          <span>{c.concept}</span>
-        </div>
-      </div>
-      <Reveal className="factory-copy">
-        <span className="eyebrow">{c.factoryLabel}</span>
-        <h2>{c.factoryTitle}</h2>
-        <p>{c.factoryText}</p>
-        <ul className="process-list">
-          {c.factoryTags.map((t, i) => (
-            <li key={t}>
-              <span>0{i + 1}</span>
-              {t}
-            </li>
-          ))}
-        </ul>
-        <Button href="#contact" light>
-          {c.start}
-        </Button>
-      </Reveal>
-    </section>
-  );
-}
-function Emergency({ locale }: { locale: Locale }) {
-  const c = copy[locale];
-  return (
-    <section className="emergency section-pad" id="emergency">
-      <div className="emergency-copy">
-        <span className="eyebrow">{c.emergencyLabel}</span>
-        <h2>{c.emergencyTitle}</h2>
-        <p>{c.emergencyText}</p>
-        <a
-          className="button"
-          href={contact.emergency}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {c.external}
-          <ArrowUpRight size={19} />
-        </a>
-      </div>
-      <div className="emergency-image">
-        <Photo name="emergency" />
-        <div className="box-label">
-          <span>BIG</span>
-          <strong>
-            SCHOOL
-            <br />
-            IN A BOX
-          </strong>
-          <ArrowUpRight />
-        </div>
-      </div>
-    </section>
   );
 }
 function Values({ locale }: { locale: Locale }) {
