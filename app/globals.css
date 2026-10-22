@@ -5330,3 +5330,367 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 /* */
+
+/* ===== Values: the Pledge (a rubber stamp presses each value onto a sheet, then the BIG seal) ===== */
+.pl {
+  --bg: #0b292b;
+  --fg: #f2f0e9;
+  --ac: #b6d4ca;
+  --ink: #267372;
+  --jolt: 0;
+  --sig: 0;
+  --to: 0;
+  --tx: 0;
+  --ty: 0;
+  --tl: 420;
+  --tr: 0;
+  --tq: 1;
+  position: relative;
+  height: 600vh;
+  background: var(--bg);
+  color: var(--fg);
+}
+.pl:before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 160px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(#267372, var(--bg));
+}
+.pl[data-static] {
+  height: auto;
+}
+.pl-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+.pl[data-static] .pl-stage {
+  position: relative;
+  min-height: 100svh;
+}
+.pl-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 36% 60% at 50% 55%, #267372 0%, transparent 70%),
+    linear-gradient(color-mix(in srgb, var(--ac) 5%, transparent) 1px, transparent 1px) 0 0 / 100% 64px,
+    linear-gradient(90deg, color-mix(in srgb, var(--ac) 5%, transparent) 1px, transparent 1px) 0 0 / 64px 100%;
+}
+.pl-head {
+  position: absolute;
+  top: 11%;
+  inset-inline-start: max(5.2vw, 24px);
+  width: min(520px, 30vw);
+}
+.pl-head .eyebrow {
+  color: var(--ac);
+  margin-bottom: 14px;
+}
+.pl-head h2 {
+  font-size: clamp(30px, min(3.8vw, 6.4vh), 58px);
+  line-height: 1.06;
+  white-space: pre-line;
+}
+[dir="rtl"] .pl-head h2 {
+  line-height: 1.38;
+}
+
+/* the sheet */
+.pl-sheet {
+  direction: ltr;
+  position: absolute;
+  left: 50%;
+  top: 11%;
+  translate: -50% 0;
+  height: 80svh;
+  aspect-ratio: 520 / 780;
+  overflow: visible;
+}
+.pl-paper {
+  transform: translateY(calc(var(--jolt) * 4px)) rotate(calc(var(--jolt) * -0.12deg));
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 26px 40px #031112aa);
+}
+.pl-page {
+  fill: #f2f0e9;
+}
+.pl-border {
+  fill: none;
+  stroke: #267372;
+  stroke-width: 1.4;
+  opacity: 0.45;
+}
+.pl-sheet text {
+  font-family: inherit;
+}
+.pl-brand {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  fill: #267372;
+}
+.pl-doc {
+  font-size: 34px;
+  font-weight: 700;
+  fill: #103b3b;
+}
+.pl-rule {
+  stroke: #103b3b;
+  stroke-width: 1.4;
+  opacity: 0.4;
+  fill: none;
+}
+.pl-bar {
+  fill: #103b3b;
+  opacity: 0.09;
+}
+.pl-logo path {
+  fill: #267372;
+}
+.pl-slot {
+  cursor: pointer;
+}
+.pl-ghost {
+  fill: none;
+  stroke: #103b3b;
+  stroke-width: 1.4;
+  stroke-dasharray: 4 6;
+  opacity: 0.22;
+}
+.pl-slot[data-cur="true"] .pl-ghost {
+  opacity: 0.55;
+  stroke: #267372;
+}
+.pl-ghost-n {
+  font-size: 20px;
+  font-weight: 700;
+  fill: #103b3b;
+  opacity: 0.16;
+}
+.pl-seal {
+  opacity: min(1, calc(var(--ps, 0) * 5));
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(1.35 - var(--ps, 0) * 0.35));
+}
+.pl-ring {
+  fill: color-mix(in srgb, #267372 9%, transparent);
+  stroke: #267372;
+  stroke-width: 3.4;
+}
+.pl-ring2 {
+  fill: none;
+  stroke: #267372;
+  stroke-width: 1.4;
+  stroke-dasharray: 2 4;
+}
+.pl-n {
+  font-size: 25px;
+  font-weight: 800;
+  fill: #267372;
+  direction: ltr;
+}
+.pl-title {
+  font-size: 15px;
+  font-weight: 700;
+  fill: #103b3b;
+  opacity: min(1, calc(var(--ps, 0) * 3));
+}
+.pl-sign {
+  fill: none;
+  stroke: #103b3b;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--sig));
+}
+.pl-big .pl-ring {
+  stroke-width: 4.2;
+  fill: color-mix(in srgb, #267372 14%, transparent);
+}
+.pl-logo-big path {
+  fill: #267372;
+}
+
+/* the stamp */
+.pl-stamp {
+  opacity: var(--to);
+  transform: translate(calc(var(--tx) * 1px), calc((var(--ty) - var(--tl)) * 1px))
+    rotate(calc(var(--tr) * 1deg)) scale(var(--tq));
+  filter: drop-shadow(0 18px 14px #031112aa);
+  pointer-events: none;
+}
+.pl-stamp path,
+.pl-stamp rect {
+  stroke: #0b292b;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+.pl-st-rubber {
+  fill: #f2f0e9;
+}
+.pl-st-plate {
+  fill: #103b3b;
+}
+.pl-st-neck {
+  fill: #267372;
+}
+.pl-st-knob {
+  fill: #3b928c;
+}
+.pl-stamp .pl-st-shine {
+  fill: none;
+  stroke: #f2f0e9;
+  stroke-width: 2.4;
+  opacity: 0.6;
+}
+
+/* panel */
+.pl-panel {
+  position: absolute;
+  top: 13%;
+  inset-inline-end: max(5.2vw, 24px);
+  width: min(400px, 28vw);
+}
+.pl-in {
+  opacity: 0;
+  animation: pl-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.pl-in[data-on="true"] {
+  opacity: 1;
+}
+.pl-count {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--ac);
+  margin-bottom: 12px;
+}
+.pl-panel h3 {
+  font-size: clamp(24px, min(2.6vw, 4.6vh), 42px);
+  line-height: 1.1;
+}
+[dir="rtl"] .pl-panel h3 {
+  line-height: 1.38;
+}
+.pl-panel p {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.75;
+  opacity: 0.82;
+}
+.pl-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.pl-nav button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+.pl-nav button:hover:not(:disabled) {
+  background: var(--fg);
+  color: var(--bg);
+}
+.pl-nav button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+@keyframes pl-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (max-width: 900px) {
+  .pl {
+    height: 560vh;
+  }
+  .pl-head {
+    top: 76px;
+    width: calc(100% - 44px);
+  }
+  .pl-head .eyebrow {
+    display: none;
+  }
+  .pl-head h2 {
+    font-size: clamp(24px, 7vw, 30px);
+    white-space: normal;
+  }
+  .pl {
+    --pt: 152px;
+    --ph: min(50svh, calc(100svh - var(--pt) - 186px));
+  }
+  [dir="rtl"] .pl {
+    --pt: 170px;
+  }
+  .pl-title {
+    font-size: 16.5px;
+  }
+  .pl-sheet {
+    top: var(--pt);
+    height: var(--ph);
+  }
+  .pl-panel {
+    top: calc(var(--pt) + var(--ph) + 10px);
+    inset-inline: 22px;
+    width: auto;
+  }
+  .pl-panel h3 {
+    font-size: 24px;
+  }
+  .pl-panel p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .pl-nav {
+    margin-top: 12px;
+  }
+  .pl-nav button {
+    width: 38px;
+    height: 38px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pl-in {
+    animation: none;
+  }
+}
+/* */
+
+/* */
+
+/* */
+/* */
+
+/* */
+
+/* */
+/* */
+
+/* */
+
+/* */
+
+/* */
+
+/* */
