@@ -16,6 +16,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
+  /* Keep the centered intro lockup on the same x-coordinate when the
+     scroll lock is released and the page scrollbar becomes visible. */
+  scrollbar-gutter: stable;
 }
 body {
   margin: 0;
