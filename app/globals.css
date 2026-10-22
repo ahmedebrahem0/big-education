@@ -5249,7 +5249,7 @@ html.intro-lock .animated-nav-logo *,
   }
   .sb-lower {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: clamp(172px, 44vw, 210px) 1fr;
     grid-template-areas:
       "seal text"
       "cta cta";
@@ -5321,4 +5321,7 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 
+/* */
+/* */
+/* */
 /* */
