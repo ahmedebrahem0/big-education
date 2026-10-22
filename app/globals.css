@@ -5635,12 +5635,15 @@ html.intro-lock .animated-nav-logo *,
     font-size: clamp(24px, 7vw, 30px);
     white-space: normal;
   }
+  .pl {
+    --pt: max(25svh, 192px);
+  }
   .pl-sheet {
-    top: 18svh;
-    height: 52svh;
+    top: var(--pt);
+    height: 46svh;
   }
   .pl-panel {
-    top: calc(18svh + 52svh + 14px);
+    top: calc(var(--pt) + 46svh + 12px);
     inset-inline: 22px;
     width: auto;
   }
@@ -5672,4 +5675,7 @@ html.intro-lock .animated-nav-logo *,
 /* */
 /* */
 
+/* */
+
+/* */
 /* */
