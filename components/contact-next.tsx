@@ -281,6 +281,7 @@ function Brief({ locale }: { locale: Locale }) {
   const reduced = useReducedMotion();
   const sec = useRef<HTMLElement>(null);
   const sky = useRef<HTMLDivElement>(null);
+  const sendIc = useRef<HTMLSpanElement>(null);
   const [open, setOpen] = useState(false);
   const [inView, setInView] = useState(false);
   const plane = useRef<SVGGElement>(null);
@@ -304,24 +305,25 @@ function Brief({ locale }: { locale: Locale }) {
   }
 
   function fly(done: () => void) {
-    const s = sec.current;
-    const l = sky.current;
+    const l = sendIc.current;
     const g = plane.current;
     const tr = trail.current;
-    if (!s || !l || !g || !tr) {
+    if (!l || !g || !tr) {
       done();
       return;
     }
-    const S = s.getBoundingClientRect();
+    // the plane is the send icon itself: it takes off from the icon and flies across the viewport
     const L = l.getBoundingClientRect();
+    const W = window.innerWidth;
+    const H = window.innerHeight;
     const dir = rtl ? -1 : 1;
-    const sx = L.left - S.left + L.width / 2;
-    const sy = L.top - S.top + L.height / 2;
-    const ex = rtl ? -140 : S.width + 140;
-    const ey = -S.top - 140;
+    const sx = L.left + L.width / 2;
+    const sy = L.top + L.height / 2;
+    const ex = rtl ? -130 : W + 130;
+    const ey = -110;
     const p0 = [sx, sy];
-    const p1 = [sx + dir * 170, sy + clamp(window.innerHeight - (S.top + sy) - 40, 30, 150)];
-    const p2 = [(sx + ex) / 2, ey + 120];
+    const p1 = [sx + dir * W * 0.28, sy - H * 0.2];
+    const p2 = [(sx + ex) / 2 + dir * W * 0.1, ey + H * 0.28];
     const p3 = [ex, ey];
     const pt = (t: number) => {
       const u = 1 - t;
@@ -331,9 +333,9 @@ function Brief({ locale }: { locale: Locale }) {
       ];
     };
     const dur = 3400;
-    const R = 96;
-    const L0 = 0.34;
-    const L1 = 0.58;
+    const R = clamp(W * 0.16, 48, 96);
+    const L0 = 0.3;
+    const L1 = 0.56;
     const at = (e: number) => {
       const [bx, by] = pt(e);
       const q = clamp((e - L0) / (L1 - L0));
@@ -507,7 +509,9 @@ function Brief({ locale }: { locale: Locale }) {
               </label>
               <button className="button cn-send" type="submit" disabled={phase === "flying"}>
                 {phase === "flying" ? ui.sending : ui.send}
-                <Send size={19} />
+                <span className="cn-send-ic" ref={sendIc} data-fly={phase === "flying"}>
+                  <Send size={19} />
+                </span>
               </button>
               <p className="form-note">{c.formNote}</p>
             </form>

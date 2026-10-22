@@ -6166,13 +6166,13 @@ html.intro-lock .animated-nav-logo *,
 
 /* the plane */
 .cn-fly {
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
   pointer-events: none;
-  z-index: 30;
+  z-index: 90;
 }
 .cn-trail {
   fill: none;
@@ -6553,4 +6553,20 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 
+/* */
+
+.cn-send-ic {
+  display: inline-grid;
+  place-items: center;
+  transition:
+    opacity 0.12s,
+    transform 0.3s;
+}
+.cn-send-ic[data-fly="true"] {
+  opacity: 0;
+  transform: translate(8px, -8px) scale(0.6);
+}
+[dir="rtl"] .cn-send-ic[data-fly="true"] {
+  transform: translate(-8px, -8px) scale(0.6);
+}
 /* */
