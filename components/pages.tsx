@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
-import { copy, contact, coreValues, type Locale } from "@/content/site";
+import { copy, contact, type Locale } from "@/content/site";
 import { Approach, ContactForm } from "./interactions";
 import { SpacesDial } from "./spaces-dial";
 import { MediaPulse } from "./media-pulse";
 import { FactoryCut } from "./factory-cut";
 import { SchoolBox } from "./school-box";
+import { ValuesPledge } from "./values-pledge";
 import { BrandMotif } from "./brand-motif";
 import { HeroFx } from "./hero-fx";
 import { Story, Pillars } from "./story";
@@ -135,29 +136,9 @@ export function Home({ locale }: { locale: Locale }) {
       <MediaPulse locale={locale} />
       <FactoryCut locale={locale} />
       <SchoolBox locale={locale} />
-      <Values locale={locale} />
+      <ValuesPledge locale={locale} />
       <Contact locale={locale} />
     </main>
-  );
-}
-function Values({ locale }: { locale: Locale }) {
-  const c = copy[locale];
-  return (
-    <section className="values section-pad core-values" id="values">
-      <div>
-        <span className="eyebrow">{c.valuesLabel}</span>
-        <h2>{c.valuesTitle}</h2>
-      </div>
-      <div className="value-grid">
-        {coreValues[locale].map(([title, description], index) => (
-          <article key={title}>
-            <span className="value-index">0{index + 1} /</span>
-            <h3>{title}</h3>
-            <p>{description}</p>
-          </article>
-        ))}
-      </div>
-    </section>
   );
 }
 function Contact({ locale }: { locale: Locale }) {
