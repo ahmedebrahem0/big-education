@@ -412,11 +412,24 @@ function Brief({ locale }: { locale: Locale }) {
   useEffect(() => {
     const el = sec.current;
     if (!el) return;
-    const io = new IntersectionObserver(([en]) => setInView(en.isIntersecting), {
-      threshold: 0.05,
-    });
-    io.observe(el);
-    return () => io.disconnect();
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      // visible while the section covers the corner button; gone once the footer slides under it
+      setInView(r.top < window.innerHeight * 0.9 && r.bottom > window.innerHeight - 150);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(raf);
+    };
   }, []);
   useEffect(() => {
     if (!open) return;

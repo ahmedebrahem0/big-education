@@ -6767,3 +6767,50 @@ html.intro-lock .animated-nav-logo *,
 }
 /* */
 /* */
+
+@media (max-width: 900px) {
+  .footer {
+    padding: 30px 22px 18px;
+  }
+  .footer-cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 20px;
+    padding-bottom: 22px;
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-bottom: 4px;
+  }
+  .footer-logo {
+    width: 150px;
+    height: 54px;
+  }
+  .footer-brand p {
+    font-size: 13px;
+  }
+  .footer-col {
+    border-top: 1px solid #ffffff1f;
+    padding-top: 16px;
+    gap: 10px;
+  }
+  .footer-col > span {
+    font-size: 10.5px;
+  }
+  .footer-col a {
+    font-size: 16px;
+  }
+  .footer-bottom {
+    border-top: 1px solid #ffffff1f;
+    padding-top: 16px;
+    grid-template-columns: 1fr auto;
+    gap: 6px 14px;
+    align-items: center;
+  }
+  .footer-bottom span {
+    line-height: 1.5;
+  }
+}
+/* */
