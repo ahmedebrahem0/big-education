@@ -581,32 +581,6 @@ function Brief({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      <div className="cn-details">
-        <div>
-          <span className="eyebrow">{c.email}</span>
-          <a href={`mailto:${contact.email}`}>
-            {contact.email}
-            <ArrowUpRight size={18} />
-          </a>
-        </div>
-        <div>
-          <span className="eyebrow">{c.call}</span>
-          {contact.phones.map((p) => (
-            <a key={p} href={`tel:${p}`} dir="ltr">
-              {p.replace(/(\d{3})(\d{2})(\d{4})(\d{2})/, "$1 $2 $3 $4")}
-              <ArrowUpRight size={18} />
-            </a>
-          ))}
-        </div>
-        <div>
-          <span className="eyebrow">BIG GROUP</span>
-          <a href={contact.group} target="_blank" rel="noreferrer">
-            big-egypt.com
-            <ArrowUpRight size={18} />
-          </a>
-        </div>
-      </div>
-
       <svg className="cn-fly" aria-hidden="true">
         <path ref={trail} className="cn-trail" d="" />
         <g ref={plane} className="cn-plane" style={{ opacity: 0 }}>
