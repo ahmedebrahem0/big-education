@@ -6285,3 +6285,56 @@ html.intro-lock .animated-nav-logo *,
 
 /* */
 /* */
+
+@media (min-width: 901px) {
+  .cn-brief {
+    padding-top: clamp(40px, 5vw, 70px);
+  }
+  .cn-form-col h3 {
+    font-size: clamp(28px, 2.8vw, 42px);
+    max-width: 720px;
+  }
+  .cn-form-col .eyebrow {
+    margin-bottom: 8px;
+  }
+  .cn-lead {
+    margin: 10px 0 18px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .cn-chips {
+    margin-bottom: 16px;
+    gap: 8px;
+  }
+  .cn-chips legend {
+    margin-bottom: 8px;
+  }
+  .cn-chips button {
+    padding: 7px 15px;
+    font-size: 13px;
+  }
+  .cn-form {
+    gap: 14px;
+  }
+  .cn-form input,
+  .cn-form textarea {
+    padding: 6px 0;
+    font-size: 15px;
+  }
+  .cn-form textarea {
+    height: 72px;
+    min-height: 72px;
+  }
+  .cn-row {
+    gap: 20px;
+  }
+  .cn-sky {
+    min-height: min(420px, 60svh);
+  }
+  .cn-details {
+    margin-top: clamp(36px, 5vw, 64px);
+    padding: 28px 0 50px;
+  }
+}
+/* */
+/* */
