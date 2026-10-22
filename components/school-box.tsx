@@ -258,9 +258,9 @@ const UI = {
   ar: { sub: "إطار مرجعي تقني" },
 };
 const STANDARDS: { name: string; x: number; y: number; sx: number; sy: number }[] = [
-  { name: "CHS", x: 160, y: 92, sx: 0, sy: -44 },
-  { name: "Sphere", x: 112, y: 172, sx: -62, sy: 40 },
-  { name: "INEE", x: 208, y: 172, sx: 62, sy: 40 },
+  { name: "CHS", x: 160, y: 80, sx: 0, sy: -44 },
+  { name: "Sphere", x: 100, y: 184, sx: -62, sy: 40 },
+  { name: "INEE", x: 220, y: 184, sx: 62, sy: 40 },
 ];
 
 export function SchoolBox({ locale }: { locale: Locale }) {
@@ -330,8 +330,8 @@ export function SchoolBox({ locale }: { locale: Locale }) {
                   style={{ "--sx": `${st.sx}px`, "--sy": `${st.sy}px` } as CSSProperties}
                   className="sb-ring"
                 >
-                  <circle pathLength={1} cx={st.x} cy={st.y} r="74" />
-                  <text x={st.x + (st.x - 160) * 0.62} y={st.y + (st.y - 144) * 0.5} textAnchor="middle">
+                  <circle pathLength={1} cx={st.x} cy={st.y} r="72" />
+                  <text x={st.x + (st.x - 160) * 0.4} y={st.y + (st.y - 144) * 0.3} textAnchor="middle">
                     {st.name}
                   </text>
                 </g>

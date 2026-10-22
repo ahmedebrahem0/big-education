@@ -1208,7 +1208,7 @@ svg {
     gap: 40px;
   }
   .panel-copy h3 {
-    font-size: 21px;
+    font-size: 23px;
   }
   .footer-links nav {
     gap: 15px;
@@ -1890,7 +1890,7 @@ summary:focus-visible {
     gap: 16px;
   }
   .space-list summary h3 {
-    font-size: 21px;
+    font-size: 23px;
   }
   .space-list details p {
     font-size: 14px;
@@ -5249,7 +5249,7 @@ html.intro-lock .animated-nav-logo *,
   }
   .sb-lower {
     display: grid;
-    grid-template-columns: clamp(172px, 44vw, 210px) 1fr;
+    grid-template-columns: 150px 1fr;
     grid-template-areas:
       "seal text"
       "cta cta";
@@ -5290,7 +5290,7 @@ html.intro-lock .animated-nav-logo *,
     letter-spacing: 0.1em;
   }
   .sb-ring text {
-    font-size: 26px;
+    font-size: 23px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5324,4 +5324,8 @@ html.intro-lock .animated-nav-logo *,
 /* */
 /* */
 /* */
+/* */
+
+/* */
+
 /* */
