@@ -18,6 +18,39 @@ const MARK_A =
 const MARK_B =
   "M122.6,222.66l14.74-13.03-47.46-53.69c-1.85,10.3-7.18,54.87,33.64,77.74,5.38,3.01,11.36,6.37,17.2,8.64l-18.12-19.66Z";
 
+// a crumpled sheet of paper: irregular outline + faceted shading, built once
+const BALL = (() => {
+  const rnd = (i: number) => {
+    const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  const N = 12;
+  const outer = Array.from({ length: N }, (_, i) => {
+    const a = (i / N) * Math.PI * 2 + rnd(i) * 0.25;
+    const r = 56 + rnd(i + 9) * 22;
+    return [Math.cos(a) * r, Math.sin(a) * r * 0.92] as [number, number];
+  });
+  const inner = Array.from({ length: N }, (_, i) => {
+    const a = (i / N) * Math.PI * 2 + 0.2 + rnd(i + 30) * 0.4;
+    const r = 24 + rnd(i + 50) * 18;
+    return [Math.cos(a) * r, Math.sin(a) * r] as [number, number];
+  });
+  const shade = (k: number) => {
+    const l = 86 + Math.round(rnd(k + 77) * 14 - 6 + Math.cos(k * 1.7) * 4);
+    return "hsl(150 12% " + Math.min(100, l) + "%)";
+  };
+  const tris: { d: string; fill: string }[] = [];
+  const P = (p: [number, number]) => p[0].toFixed(1) + " " + p[1].toFixed(1);
+  let k = 0;
+  for (let i = 0; i < N; i++) {
+    const j = (i + 1) % N;
+    tris.push({ d: "M" + P(outer[i]) + "L" + P(outer[j]) + "L" + P(inner[i]) + "Z", fill: shade(k++) });
+    tris.push({ d: "M" + P(outer[j]) + "L" + P(inner[j]) + "L" + P(inner[i]) + "Z", fill: shade(k++) });
+    tris.push({ d: "M0 0L" + P(inner[i]) + "L" + P(inner[j]) + "Z", fill: shade(k++) });
+  }
+  return { tris, outline: "M" + outer.map(P).join("L") + "Z" };
+})();
+
 const UI = {
   en: {
     steps: ["Spaces", "Media", "Factory", "Emergency", "Values", "Your project"],
@@ -252,10 +285,13 @@ function Brief({ locale }: { locale: Locale }) {
   const [msg, setMsg] = useState("");
   const [phase, setPhase] = useState<"idle" | "flying" | "sent">("idle");
 
+  const empty = !name && !org && !msg && picked.length === 0;
+  const state = phase === "flying" ? "fold" : phase === "sent" || empty ? "ball" : "letter";
   const chosen = picked.map((i) => ui.opts[i]).join(", ");
   const subject = "BIG Education — Project enquiry";
+  const to = contact.formTo;
   const body = `${chosen ? chosen + "\n\n" : ""}${msg}\n\n${name}\n${org}`.trim();
-  const mailto = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   function toggle(i: number) {
     setPicked((p) => (p.includes(i) ? p.filter((v) => v !== i) : [...p, i]));
@@ -288,19 +324,29 @@ function Brief({ locale }: { locale: Locale }) {
         u * u * u * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t * t * t * p3[1],
       ];
     };
-    const dur = 2600;
+    const dur = 3400;
+    const R = 96;
+    const L0 = 0.34;
+    const L1 = 0.58;
+    const at = (e: number) => {
+      const [bx, by] = pt(e);
+      const q = clamp((e - L0) / (L1 - L0));
+      const th = q * Math.PI * 2 * (q > 0 && q < 1 ? 1 : 0) + (q >= 1 ? 0 : 0);
+      const on = e > L0 && e < L1 ? 1 : 0;
+      return [bx + on * dir * R * Math.sin(th), by - on * R * (1 - Math.cos(th))];
+    };
     const t0 = performance.now();
     const pts: string[] = [];
     g.style.opacity = "1";
     const step = (now: number) => {
       const t = clamp((now - t0) / dur);
       const e = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      const [x, y] = pt(e);
-      const [x2, y2] = pt(Math.min(1, e + 0.01));
+      const [x, y] = at(e);
+      const [x2, y2] = at(Math.min(1, e + 0.006));
       const ang = (Math.atan2(y2 - y, x2 - x) * 180) / Math.PI;
       const sc =
         (0.25 + 0.75 * smooth(clamp(t / 0.14))) * (1 - 0.55 * smooth(win(t, 0.55, 1)));
-      const flip = x2 < x ? -1 : 1;
+      const flip = rtl ? -1 : 1;
       g.setAttribute(
         "transform",
         `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(${sc.toFixed(3)} ${(sc * flip).toFixed(3)})`,
@@ -430,7 +476,19 @@ function Brief({ locale }: { locale: Locale }) {
         </div>
 
         <div className="cn-sky" aria-hidden="true">
-          <article className="cn-letter" ref={letter} data-fold={phase !== "idle"}>
+          <svg
+            className="cn-ball"
+            viewBox="-90 -90 180 180"
+            data-show={state === "ball"}
+          >
+            <g className="cn-ball-in">
+              {BALL.tris.map((p, i) => (
+                <path key={i} d={p.d} fill={p.fill} />
+              ))}
+              <path d={BALL.outline} className="cn-ball-edge" />
+            </g>
+          </svg>
+          <article className="cn-letter" ref={letter} data-state={state}>
             <header>
               <svg viewBox="20 55 200 200" className="cn-letter-mark">
                 <path d={MARK_A} />
@@ -441,7 +499,7 @@ function Brief({ locale }: { locale: Locale }) {
             <dl>
               <div>
                 <dt>{ui.to}</dt>
-                <dd dir="ltr">{contact.email}</dd>
+                <dd dir="ltr">{to}</dd>
               </div>
               <div>
                 <dt>{ui.subject}</dt>

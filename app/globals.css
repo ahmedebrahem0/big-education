@@ -6056,9 +6056,10 @@ html.intro-lock .animated-nav-logo *,
     transform 0.5s cubic-bezier(0.5, 0, 0.75, 0),
     opacity 0.4s 0.1s;
 }
-.cn-letter[data-fold="true"] {
-  transform: scale(0.28) rotate(-16deg);
+.cn-letter:not([data-state="letter"]) {
+  transform: scale(0.22) rotate(-20deg);
   opacity: 0;
+  pointer-events: none;
 }
 .cn-letter header {
   display: flex;
@@ -6233,4 +6234,54 @@ html.intro-lock .animated-nav-logo *,
     animation: none;
   }
 }
+/* */
+
+.cn-sky {
+  position: relative;
+}
+.cn-ball {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 170px;
+  height: 170px;
+  margin: -85px 0 0 -85px;
+  overflow: visible;
+  opacity: 0;
+  transform: scale(0.3) rotate(40deg);
+  transition:
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s;
+  filter: drop-shadow(0 16px 14px #103b3b38);
+  pointer-events: none;
+}
+.cn-ball[data-show="true"] {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+.cn-ball[data-show="true"] .cn-ball-in {
+  animation: cn-breathe 4.5s ease-in-out infinite;
+}
+.cn-ball path {
+  stroke: #b3c4bb;
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+.cn-ball .cn-ball-edge {
+  fill: none;
+  stroke: #9db3a9;
+  stroke-width: 1.4;
+}
+.cn-ball-in {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes cn-breathe {
+  50% {
+    transform: rotate(3deg) scale(1.025);
+  }
+}
+
+/* */
 /* */
