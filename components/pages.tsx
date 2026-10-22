@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { ArrowUpRight, ArrowDown } from "lucide-react";
-import { copy, contact, type Locale } from "@/content/site";
-import { Approach, ContactForm } from "./interactions";
+import { copy, type Locale } from "@/content/site";
+import { Approach } from "./interactions";
 import { SpacesDial } from "./spaces-dial";
 import { MediaPulse } from "./media-pulse";
 import { FactoryCut } from "./factory-cut";
 import { SchoolBox } from "./school-box";
 import { ValuesPledge } from "./values-pledge";
+import { ContactNext } from "./contact-next";
 import { BrandMotif } from "./brand-motif";
 import { HeroFx } from "./hero-fx";
 import { Story, Pillars } from "./story";
@@ -137,47 +138,7 @@ export function Home({ locale }: { locale: Locale }) {
       <FactoryCut locale={locale} />
       <SchoolBox locale={locale} />
       <ValuesPledge locale={locale} />
-      <Contact locale={locale} />
+      <ContactNext locale={locale} />
     </main>
-  );
-}
-function Contact({ locale }: { locale: Locale }) {
-  const c = copy[locale];
-  return (
-    <div id="contact">
-      <section className="inner-hero contact-hero">
-        <div>
-          <span className="eyebrow">{c.contactLabel}</span>
-          <h2 className="contact-title">{c.contactTitle}</h2>
-          <p>{c.contactText}</p>
-        </div>
-        <ContactForm locale={locale} />
-      </section>
-      <section className="contact-details section-pad">
-        <div>
-          <span className="eyebrow">{c.email}</span>
-          <a href={`mailto:${contact.email}`}>
-            {contact.email}
-            <ArrowUpRight />
-          </a>
-        </div>
-        <div>
-          <span className="eyebrow">{c.call}</span>
-          {contact.phones.map((p) => (
-            <a key={p} href={`tel:${p}`} dir="ltr">
-              {p.replace(/(\d{3})(\d{2})(\d{4})(\d{2})/, "$1 $2 $3 $4")}
-              <ArrowUpRight />
-            </a>
-          ))}
-        </div>
-        <div>
-          <span className="eyebrow">BIG GROUP</span>
-          <a href={contact.group} target="_blank" rel="noreferrer">
-            big-egypt.com
-            <ArrowUpRight />
-          </a>
-        </div>
-      </section>
-    </div>
   );
 }

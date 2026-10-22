@@ -1,6 +1,8 @@
 export type Locale = "en" | "ar";
 export const contact = {
   email: "info@big-education-egypt.com",
+  // recipient of the contact form (test inbox for now)
+  formTo: "amezo2866@gmail.com",
   phones: ["01044222282", "01044222284"],
   group: "https://www.big-egypt.com",
   emergency: "https://www.big-school-in-a-box.com",
@@ -372,7 +374,7 @@ export const copy = {
       "تنفيذ متكامل ودعم يستمر بعد التركيب.",
     ],
     contactLabel: "لنبنِ الخطوة القادمة",
-    contactTitle: "رؤيتك.\nبدايتنا القادمة.",
+    contactTitle: "رؤيتك\nبدايتنا القادمة",
     contactText:
       "تخطط لمساحة تعليمية أو محتوى جديد أو حلول للتعليم في الطوارئ؟ شاركنا ما يدور في ذهنك.",
     email: "راسلنا",

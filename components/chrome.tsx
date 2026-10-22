@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { AnimatedNavLogo } from "./animated-nav-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -225,48 +224,60 @@ export function Header({ locale }: { locale: Locale }) {
 }
 export function Footer({ locale }: { locale: Locale }) {
   const c = copy[locale];
+  const ar = locale === "ar";
   return (
     <footer className="footer">
-      <div className="footer-top">
-        <Link href={`/${locale}`} className="footer-logo">
-          <Image
-            src="/brand/logo.svg"
-            width={190}
-            height={70}
-            alt="BIG Education"
-          />
-        </Link>
-        <p>{c.footer}</p>
-        <a
-          className="back-top"
-          href="#main"
-          aria-label={locale === "ar" ? "إلى أعلى الصفحة" : "Back to top"}
-        >
-          ↑
-        </a>
-      </div>
-      <div className="footer-links">
-        <div>
+      <div className="footer-cols">
+        <div className="footer-brand">
+          <Link href={`/${locale}`} className="footer-logo" aria-label="BIG Education">
+            <AnimatedNavLogo />
+          </Link>
+          <p>{c.footer}</p>
+        </div>
+        <div className="footer-col">
           <span>{c.email}</span>
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a href={`mailto:${contact.email}`}>
+            {contact.email}
+            <ArrowUpRight size={15} />
+          </a>
+        </div>
+        <div className="footer-col">
+          <span>{c.call}</span>
+          {contact.phones.map((p) => (
+            <a key={p} href={`tel:${p}`} dir="ltr">
+              {p.replace(/(\d{3})(\d{2})(\d{4})(\d{2})/, "$1 $2 $3 $4")}
+              <ArrowUpRight size={15} />
+            </a>
+          ))}
         </div>
         <nav
-          aria-label={locale === "ar" ? "روابط أسفل الصفحة" : "Footer links"}
+          className="footer-col"
+          aria-label={ar ? "روابط أسفل الصفحة" : "Footer links"}
         >
+          <span>{ar ? "استكشف" : "EXPLORE"}</span>
           <Link href={`/${locale}#solutions`}>{c.nav[0]}</Link>
           <Link href={`/${locale}#vision`}>{c.nav[1]}</Link>
           <Link href={`/${locale}#contact`}>{c.nav[3]}</Link>
         </nav>
-        <a href={contact.group} target="_blank" rel="noreferrer">
-          BIG Group <ArrowUpRight size={16} />
-        </a>
+        <div className="footer-col">
+          <span>BIG GROUP</span>
+          <a href={contact.group} target="_blank" rel="noreferrer">
+            big-egypt.com
+            <ArrowUpRight size={15} />
+          </a>
+        </div>
       </div>
       <div className="footer-bottom">
         <span>© {c.rights}</span>
         <span>{c.concept}</span>
-        <span>
-          EGYPT · {locale === "en" ? "BUILT FOR THE WORLD" : "إلى العالم"}
-        </span>
+        <span>EGYPT · {ar ? "إلى العالم" : "BUILT FOR THE WORLD"}</span>
+        <a
+          className="back-top"
+          href="#main"
+          aria-label={ar ? "إلى أعلى الصفحة" : "Back to top"}
+        >
+          ↑
+        </a>
       </div>
     </footer>
   );
