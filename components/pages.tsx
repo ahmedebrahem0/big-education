@@ -3,6 +3,7 @@ import { ArrowUpRight, ArrowDown } from "lucide-react";
 import { copy, contact, coreValues, type Locale } from "@/content/site";
 import { Approach, Reveal, ContactForm } from "./interactions";
 import { SpacesDial } from "./spaces-dial";
+import { MediaPulse } from "./media-pulse";
 import { BrandMotif } from "./brand-motif";
 import { HeroFx } from "./hero-fx";
 import { Story, Pillars } from "./story";
@@ -129,7 +130,7 @@ export function Home({ locale }: { locale: Locale }) {
       <Pillars locale={locale} />
       <Approach locale={locale} immersive />
       <SpacesDial locale={locale} />
-      <Media locale={locale} />
+      <MediaPulse locale={locale} />
       <Factory locale={locale} />
       <Emergency locale={locale} />
       <Values locale={locale} />
@@ -196,26 +197,6 @@ function Emergency({ locale }: { locale: Locale }) {
           </strong>
           <ArrowUpRight />
         </div>
-      </div>
-    </section>
-  );
-}
-function Media({ locale }: { locale: Locale }) {
-  const c = copy[locale];
-  const s = c.services[1];
-  return (
-    <section className="media-detail section-pad" id="media">
-      <span className="eyebrow">{s.category}</span>
-      <h2>{s.title}</h2>
-      <p className="large-copy">{s.text}</p>
-      <div className="mission">
-        {s.items.map((item, i) => (
-          <article key={item}>
-            <span className="eyebrow">0{i + 1} /</span>
-            <h3>{item}</h3>
-            <p>{c.mediaDetails[i]}</p>
-          </article>
-        ))}
       </div>
     </section>
   );
