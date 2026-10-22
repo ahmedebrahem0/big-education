@@ -1,44 +1,110 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { copy, type Locale } from "@/content/site";
 import { clamp, smooth, useScrub, win } from "./use-scrub";
 
-const rr = (x: number, y: number, w: number, h: number, r: number) =>
-  `M${x + r} ${y}h${w - 2 * r}a${r} ${r} 0 0 1 ${r} ${r}v${h - 2 * r}a${r} ${r} 0 0 1 ${-r} ${r}h${-(w - 2 * r)}a${r} ${r} 0 0 1 ${-r} ${-r}v${-(h - 2 * r)}a${r} ${r} 0 0 1 ${r} ${-r}z`;
-const circ = (cx: number, cy: number, r: number) =>
-  `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
+// ---------- isometric furniture, built from boxes ----------
+type Box = [number, number, number, number, number, number]; // x y z w d h
+type Part = {
+  dz: number; // exploded offset in px (negative = up)
+  t: string;
+  l: string;
+  r: string;
+  cx: number;
+  cy: number;
+  tag?: string;
+  dx?: number;
+  screen?: boolean;
+};
 
-// Parts nested on one sheet: standard furniture on the left, smart furniture on the right.
-const PARTS: { id: string; d: string; x: number; y: number; tag?: boolean }[] = [
-  { id: "A1", d: rr(70, 90, 190, 150, 16), x: 84, y: 118, tag: true },
-  { id: "A2", d: rr(290, 90, 200, 100, 16), x: 304, y: 118, tag: true },
-  { id: "A3", d: rr(290, 210, 200, 34, 8), x: 0, y: 0 },
-  { id: "A4", d: rr(70, 280, 44, 320, 8), x: 0, y: 0 },
-  { id: "A5", d: rr(134, 280, 44, 320, 8), x: 0, y: 0 },
-  { id: "A6", d: rr(198, 280, 44, 320, 8), x: 0, y: 0 },
-  { id: "A7", d: rr(270, 280, 220, 150, 16), x: 284, y: 308, tag: true },
-  { id: "A8", d: rr(270, 450, 220, 150, 16), x: 284, y: 478, tag: true },
-  { id: "B1", d: rr(530, 90, 400, 150, 18), x: 592, y: 122, tag: true },
-  { id: "B2", d: rr(530, 270, 260, 190, 14), x: 548, y: 298, tag: true },
-  { id: "B3", d: circ(660, 385, 30), x: 0, y: 0 },
-  { id: "B4", d: rr(820, 270, 110, 330, 12), x: 834, y: 298, tag: true },
-  { id: "B5", d: rr(530, 490, 260, 110, 12), x: 548, y: 518, tag: true },
-  { id: "B6", d: circ(562, 121, 9), x: 0, y: 0 },
-  { id: "B7", d: circ(898, 121, 9), x: 0, y: 0 },
-];
-// the three quality gates sweep the sheet inside these scroll windows
+const poly = (pts: number[][]) =>
+  "M" + pts.map((p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join("L") + "Z";
+
+function build(
+  ox: number,
+  oy: number,
+  k: number,
+  boxes: { b: Box; dz: number; tag?: string; dx?: number; screen?: boolean }[],
+): Part[] {
+  const P = (x: number, y: number, z: number) => [
+    ox + (x - y) * 0.866 * k,
+    oy + (x + y) * 0.5 * k - z * k,
+  ];
+  return boxes.map(({ b: [x, y, z, w, d, h], dz, tag, dx, screen }) => {
+    const c = P(x + w / 2, y + d / 2, z + h / 2);
+    return {
+      dz,
+      tag,
+      dx,
+      screen,
+      cx: c[0],
+      cy: c[1],
+      t: poly([P(x, y, z + h), P(x + w, y, z + h), P(x + w, y + d, z + h), P(x, y + d, z + h)]),
+      l: poly([P(x, y + d, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x, y + d, z + h)]),
+      r: poly([P(x + w, y, z), P(x + w, y + d, z), P(x + w, y + d, z + h), P(x + w, y, z + h)]),
+    };
+  });
+}
+
+// listed far-to-near so later parts paint over earlier ones
+const CHAIR = build(270, 372, 2.6, [
+  { b: [0, 0, 0, 4, 4, 88], dz: 0 },
+  { b: [36, 0, 0, 4, 4, 88], dz: 0 },
+  { b: [5, 0.5, 56, 30, 3, 26], dz: -112, tag: "back", dx: 112 },
+  { b: [0, 36, 0, 4, 4, 45], dz: 0, tag: "frame", dx: 190 },
+  { b: [36, 36, 0, 4, 4, 45], dz: 0 },
+  { b: [4, 37, 14, 32, 2.5, 3], dz: 30 },
+  { b: [0, 4, 45, 40, 36, 5], dz: -56, tag: "seat", dx: 128 },
+]);
+const DESK = build(728, 398, 2.2, [
+  { b: [2, 2, 0, 4, 4, 70], dz: 0 },
+  { b: [64, 2, 0, 4, 4, 70], dz: 0 },
+  { b: [6, 6, 28, 58, 33, 2], dz: 34, tag: "shelf", dx: 150 },
+  { b: [2, 39, 0, 4, 4, 70], dz: 0 },
+  { b: [64, 39, 0, 4, 4, 70], dz: 0 },
+  { b: [0, 0, 70, 70, 45, 4], dz: -42, tag: "top", dx: 170 },
+  { b: [10, 8, 74, 44, 27, 1.2], dz: -112, tag: "screen", dx: 120, screen: true },
+]);
+const PARTS = [...CHAIR, ...DESK];
+
+// quality gates sweep the finished products inside these scroll windows
 const GATES: [number, number][] = [
-  [0.62, 0.72],
-  [0.74, 0.84],
-  [0.86, 0.94],
+  [0.64, 0.74],
+  [0.76, 0.86],
+  [0.88, 0.95],
 ];
-const CUT: [number, number] = [0.18, 0.6];
+const CUT: [number, number] = [0.14, 0.46];
+const ASSEMBLE: [number, number] = [0.46, 0.62];
 
 const UI = {
-  en: { std: "STANDARD", smart: "SMART", gate: "QUALITY GATE" },
-  ar: { std: "قياسي", smart: "ذكي", gate: "بوابة الجودة" },
+  en: {
+    std: "STANDARD",
+    smart: "SMART",
+    gate: "QUALITY GATE",
+    tags: {
+      back: "BACKREST",
+      seat: "SEAT",
+      frame: "FRAME",
+      shelf: "BAG SHELF",
+      top: "DESK TOP",
+      screen: "SMART DISPLAY",
+    },
+  },
+  ar: {
+    std: "قياسي",
+    smart: "ذكي",
+    gate: "بوابة الجودة",
+    tags: {
+      back: "مسند الظهر",
+      seat: "المقعد",
+      frame: "الهيكل",
+      shelf: "رف الحقيبة",
+      top: "سطح المكتب",
+      screen: "شاشة ذكية",
+    },
+  },
 };
 
 type Geo = { a: number[]; b: number[]; len: number[] };
@@ -49,6 +115,7 @@ export function FactoryCut({ locale }: { locale: Locale }) {
   const reduced = useReducedMotion();
   const root = useRef<HTMLElement>(null);
   const els = useRef<(SVGPathElement | null)[]>([]);
+  const beam = useRef<SVGPathElement>(null);
   const geo = useRef<Geo | null>(null);
   const [stage, setStage] = useState(0);
   const shownStage = useRef(-1);
@@ -58,7 +125,7 @@ export function FactoryCut({ locale }: { locale: Locale }) {
     if (!el) return;
     if (!geo.current) {
       const len = els.current.map((p) => p?.getTotalLength() ?? 1);
-      const w = len.map((l) => l + 50);
+      const w = len.map((l) => l + 60);
       const sum = w.reduce((t, v) => t + v, 0);
       let acc = 0;
       const a: number[] = [];
@@ -66,30 +133,34 @@ export function FactoryCut({ locale }: { locale: Locale }) {
       w.forEach((v) => {
         a.push(acc / sum);
         acc += v;
-        b.push((acc - 50) / sum);
+        b.push((acc - 60) / sum);
       });
       geo.current = { a, b, len };
     }
     const g = geo.current;
     const set = (k: string, v: number) => el.style.setProperty(k, v.toFixed(3));
-    set("--sheet", win(s, 0, 0.06));
-    set("--split", win(s, 0.04, 0.14));
+    set("--ghost", win(s, 0, 0.07));
+    set("--split", win(s, 0.04, 0.13));
     const p = win(s, CUT[0], CUT[1]);
     let head = -1;
     let hc = 0;
     PARTS.forEach((_, i) => {
       const ci = clamp((p - g.a[i]) / (g.b[i] - g.a[i]));
       set(`--c${i}`, ci);
-      if (p >= g.a[i] && p < 1 && ci < 1 + 1e-9) {
+      if (p >= g.a[i]) {
         head = i;
         hc = ci;
       }
     });
+    set("--ex", 1 - smooth(win(s, ASSEMBLE[0], ASSEMBLE[1])));
     const live = p > 0 && p < 1 && head >= 0 && els.current[head];
     if (live) {
       const pt = els.current[head]!.getPointAtLength(hc * g.len[head]);
-      set("--hx", pt.x);
-      set("--hy", pt.y);
+      const x = pt.x;
+      const y = pt.y + PARTS[head].dz;
+      set("--hx", x);
+      set("--hy", y);
+      beam.current?.setAttribute("d", `M${x.toFixed(1)} 20V${y.toFixed(1)}`);
     }
     set("--ho", live ? 1 : 0);
     let sweep = 0;
@@ -98,20 +169,23 @@ export function FactoryCut({ locale }: { locale: Locale }) {
       set(`--g${k}`, smooth(q));
       if (q > 0 && q < 1) {
         sweep = 1;
-        set("--sx", 40 + q * 920);
+        set("--sx", -60 + q * 1120);
       }
     });
     set("--so", sweep);
-    set("--ok", smooth(win(s, 0.93, 0.98)));
-    set("--sp0", win(s, 0, 0.17));
-    set("--sp1", win(s, 0.17, 0.61));
-    set("--sp2", win(s, 0.61, 0.94));
-    const st = s < 0.17 ? 0 : s < 0.61 ? 1 : 2;
+    set("--ok", smooth(win(s, 0.95, 0.99)));
+    set("--sp0", win(s, 0, CUT[0]));
+    set("--sp1", win(s, CUT[0], 0.63));
+    set("--sp2", win(s, 0.63, 0.96));
+    const st = s < CUT[0] ? 0 : s < 0.63 ? 1 : 2;
     if (st !== shownStage.current) {
       shownStage.current = st;
       setStage(st);
     }
   });
+
+  const vars = (i: number, dz: number) =>
+    ({ "--c": `var(--c${i})`, "--dz": `${dz}px` }) as CSSProperties;
 
   return (
     <section
@@ -131,7 +205,7 @@ export function FactoryCut({ locale }: { locale: Locale }) {
                 key={t}
                 data-on={stage === i}
                 data-done={stage > i}
-                style={{ "--sp": `var(--sp${i})` } as React.CSSProperties}
+                style={{ "--sp": `var(--sp${i})` } as CSSProperties}
               >
                 <b>0{i + 1}</b>
                 <span>{t}</span>
@@ -147,84 +221,89 @@ export function FactoryCut({ locale }: { locale: Locale }) {
 
         <svg
           className="fc-bench"
-          viewBox="0 0 1000 740"
+          viewBox="0 0 1000 660"
           role="img"
           aria-label={c.factoryTitle.replace("\n", " ")}
         >
           <defs>
-            <pattern id="fcGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M20 0H0V20" className="fc-gridline" />
-            </pattern>
             <linearGradient id="fcScan" x1="0" x2="1">
               <stop offset="0" stopColor="var(--ac)" stopOpacity="0" />
-              <stop offset="1" stopColor="var(--ac)" stopOpacity="0.55" />
+              <stop offset="1" stopColor="var(--ac)" stopOpacity="0.5" />
             </linearGradient>
           </defs>
 
-          <g className="fc-sheet">
-            <rect x="40" y="50" width="920" height="600" fill="url(#fcGrid)" />
-            <path pathLength={1} d="M40 50H960V650H40Z" className="fc-edge" />
-            <path
-              d="M40 80V50H70M930 50H960V80M960 620V650H930M70 650H40V620"
-              className="fc-corner"
-            />
-          </g>
-          <path d="M500 50V650" className="fc-split" />
-          <text x="270" y="34" textAnchor="middle" className="fc-chip">
+          <text x="270" y="40" textAnchor="middle" className="fc-chip">
             {ui.std}
           </text>
-          <text x="730" y="34" textAnchor="middle" className="fc-chip">
+          <text x="740" y="40" textAnchor="middle" className="fc-chip">
             {ui.smart}
           </text>
 
+          <ellipse cx="270" cy="428" rx="130" ry="36" className="fc-shadow" />
+          <ellipse cx="752" cy="462" rx="190" ry="50" className="fc-shadow" />
+
           {PARTS.map((p, i) => (
-            <g key={p.id} className="fc-part">
+            <path
+              key={`g${i}`}
+              d={`M${p.cx.toFixed(1)} ${p.cy.toFixed(1)}v${p.dz}`}
+              className="fc-guide"
+            />
+          ))}
+
+          {PARTS.map((p, i) => (
+            <g key={i} className="fc-part" style={vars(i, p.dz)}>
+              <path d={p.l} className="fc-fill fc-fl" />
+              <path d={p.r} className="fc-fill fc-fr" />
               <path
-                d={p.d}
-                className="fc-fill"
-                style={{ "--c": `var(--c${i})` } as React.CSSProperties}
+                d={p.t}
+                className={p.screen ? "fc-fill fc-ft fc-screen" : "fc-fill fc-ft"}
               />
-              <path
-                ref={(n) => {
-                  els.current[i] = n;
-                }}
-                d={p.d}
-                pathLength={1}
-                className="fc-cut"
-                style={{ "--c": `var(--c${i})` } as React.CSSProperties}
-              />
+              <g className="fc-ghost">
+                <path d={p.l} />
+                <path d={p.r} />
+                <path d={p.t} />
+              </g>
+              <g className="fc-edges">
+                <path d={p.l} />
+                <path d={p.r} />
+                <path
+                  ref={(n) => {
+                    els.current[i] = n;
+                  }}
+                  d={p.t}
+                  pathLength={1}
+                  className="fc-trace"
+                />
+              </g>
               {p.tag && (
-                <text
-                  x={p.x}
-                  y={p.y}
-                  className="fc-id"
-                  style={{ "--c": `var(--c${i})` } as React.CSSProperties}
-                >
-                  {p.id}
-                </text>
+                <g className="fc-lab">
+                  <path d={`M${p.cx.toFixed(1)} ${p.cy.toFixed(1)}H${(p.cx + (p.dx ?? 100) - 8).toFixed(1)}`} />
+                  <text x={p.cx + (p.dx ?? 100)} y={p.cy + 4}>
+                    {ui.tags[p.tag as keyof typeof ui.tags]}
+                  </text>
+                </g>
               )}
             </g>
           ))}
 
           <g className="fc-head">
-            <path d="M40 0H960" className="fc-gx" />
-            <path d="M0 50V650" className="fc-gy" />
+            <path ref={beam} d="M0 20V20" className="fc-beam" />
             <circle r="7" className="fc-spark" />
           </g>
 
-          <rect x="-60" y="50" width="60" height="600" fill="url(#fcScan)" className="fc-scan" />
+          <rect x="0" y="52" width="60" height="520" fill="url(#fcScan)" className="fc-scan" />
 
           <g className="fc-gates">
-            <text x="40" y="690" className="fc-gate-label">
+            <text x="40" y="598" className="fc-gate-label">
               {ui.gate}
             </text>
             {[0, 1, 2].map((k) => (
-              <g key={k} transform={`translate(${52 + k * 46} 716)`}>
+              <g key={k} transform={`translate(${52 + k * 46} 624)`}>
                 <circle r="13" className="fc-lamp-ring" />
                 <circle
                   r="13"
                   className="fc-lamp"
-                  style={{ "--g": `var(--g${k})` } as React.CSSProperties}
+                  style={{ "--g": `var(--g${k})` } as CSSProperties}
                 />
                 <text y="4" textAnchor="middle" className="fc-lamp-n">
                   {k + 1}
@@ -232,7 +311,7 @@ export function FactoryCut({ locale }: { locale: Locale }) {
               </g>
             ))}
           </g>
-          <g className="fc-stamp" transform="translate(890 690)">
+          <g className="fc-stamp" transform="translate(900 606)">
             <circle r="34" pathLength={1} />
             <circle r="26" pathLength={1} />
             <path d="M-13 1l9 10 17-21" pathLength={1} />

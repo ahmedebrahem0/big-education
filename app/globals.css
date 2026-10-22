@@ -4592,7 +4592,7 @@ html.intro-lock .animated-nav-logo *,
 /* */
 /* */
 
-/* ===== Factory: the Cut & Check (laser cuts a sheet, three gates approve it) ===== */
+/* ===== Factory: the Cut & Check (laser traces real furniture parts, they assemble, three gates approve) ===== */
 .fc {
   --bg: #f2f0e9;
   --fg: #103b3b;
@@ -4600,26 +4600,19 @@ html.intro-lock .animated-nav-logo *,
   --hx: 0;
   --hy: 0;
   position: relative;
-  height: 520vh;
+  height: 560vh;
   background: var(--bg);
   color: var(--fg);
 }
-.fc:before,
-.fc:after {
+.fc:before {
   content: "";
   position: absolute;
   inset-inline: 0;
+  top: 0;
   height: 160px;
   pointer-events: none;
   z-index: 1;
-}
-.fc:before {
-  top: 0;
   background: linear-gradient(#0b292b, var(--bg));
-}
-.fc:after {
-  bottom: 0;
-  background: linear-gradient(var(--bg), #267372);
 }
 .fc[data-static] {
   height: auto;
@@ -4634,6 +4627,7 @@ html.intro-lock .animated-nav-logo *,
   gap: clamp(24px, 3vw, 64px);
   padding-inline: max(5.2vw, 24px);
   background:
+    radial-gradient(ellipse 55% 60% at 68% 55%, #ffffff80, transparent 70%),
     linear-gradient(color-mix(in srgb, var(--fg) 5%, transparent) 1px, transparent 1px) 0 0 /
       100% 60px,
     linear-gradient(90deg, color-mix(in srgb, var(--fg) 5%, transparent) 1px, transparent 1px) 0 0 /
@@ -4725,33 +4719,6 @@ html.intro-lock .animated-nav-logo *,
   max-height: 88svh;
   overflow: visible;
 }
-.fc-gridline {
-  fill: none;
-  stroke: var(--fg);
-  stroke-width: 0.6;
-  opacity: 0.1;
-}
-.fc-sheet {
-  opacity: var(--sheet, 0);
-}
-.fc-edge {
-  fill: none;
-  stroke: var(--fg);
-  stroke-width: 2.4;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--sheet, 0));
-}
-.fc-corner {
-  fill: none;
-  stroke: var(--ac);
-  stroke-width: 3;
-}
-.fc-split {
-  stroke: var(--fg);
-  stroke-width: 1.4;
-  stroke-dasharray: 6 8;
-  opacity: calc(var(--split, 0) * 0.5);
-}
 .fc-chip {
   font-size: 14px;
   font-weight: 700;
@@ -4759,41 +4726,80 @@ html.intro-lock .animated-nav-logo *,
   fill: var(--ac);
   opacity: var(--split, 0);
 }
-.fc-fill {
-  fill: var(--ac);
-  fill-opacity: calc(var(--c, 0) * 0.07 + var(--ok, 0) * 0.3);
+.fc-shadow {
+  fill: var(--fg);
+  opacity: calc(0.04 + (1 - var(--ex, 1)) * 0.08);
 }
-.fc-cut {
+.fc-guide {
   fill: none;
   stroke: var(--fg);
-  stroke-width: 2.2;
+  stroke-width: 1.2;
+  stroke-dasharray: 2 5;
+  opacity: calc(var(--ghost, 0) * var(--ex, 1) * 0.45);
+}
+.fc-part {
+  transform: translateY(calc(var(--ex, 1) * var(--dz, 0px)));
+}
+.fc-fill {
+  fill-opacity: var(--c, 0);
+  stroke: none;
+}
+.fc-fl {
+  fill: color-mix(in srgb, var(--ac) calc(16% + var(--ok, 0) * 22%), var(--bg));
+}
+.fc-fr {
+  fill: color-mix(in srgb, var(--ac) calc(34% + var(--ok, 0) * 28%), var(--bg));
+}
+.fc-ft {
+  fill: color-mix(in srgb, #fff 60%, var(--bg));
+}
+.fc-ft.fc-screen {
+  fill: color-mix(in srgb, var(--ac) 50%, #fff);
+}
+.fc-ghost path {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
   stroke-linejoin: round;
+  opacity: calc(var(--ghost, 0) * 0.4 * (1 - var(--c, 0)));
+}
+.fc-edges path {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1.9;
+  stroke-linejoin: round;
+  opacity: var(--c, 0);
+}
+.fc-edges .fc-trace {
+  opacity: 1;
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--c, 0));
 }
-.fc-id {
-  font-size: 13px;
+.fc-lab {
+  opacity: calc(var(--c, 0) * var(--ex, 1));
+}
+.fc-lab path {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 1;
+  opacity: 0.45;
+}
+.fc-lab text {
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   fill: var(--ac);
-  opacity: calc(var(--c, 0) * var(--c, 0));
 }
 .fc-head {
   opacity: var(--ho, 0);
   transition: opacity 0.25s;
 }
-.fc-gx,
-.fc-gy {
+.fc-beam {
+  fill: none;
   stroke: var(--ac);
-  stroke-width: 1;
-  stroke-dasharray: 3 5;
-  opacity: 0.6;
-}
-.fc-gx {
-  transform: translate(0, calc(var(--hy, 0) * 1px));
-}
-.fc-gy {
-  transform: translate(calc(var(--hx, 0) * 1px), 0);
+  stroke-width: 1.4;
+  opacity: 0.55;
 }
 .fc-spark {
   fill: var(--ac);
@@ -4828,7 +4834,6 @@ html.intro-lock .animated-nav-logo *,
   font-size: 12px;
   font-weight: 700;
   fill: var(--fg);
-  mix-blend-mode: normal;
 }
 .fc-stamp circle,
 .fc-stamp path {
@@ -4848,7 +4853,7 @@ html.intro-lock .animated-nav-logo *,
 
 @media (max-width: 760px) {
   .fc {
-    height: 460vh;
+    height: 480vh;
   }
   .fc-stage {
     flex-direction: column;
@@ -4875,7 +4880,7 @@ html.intro-lock .animated-nav-logo *,
     margin-top: 22px;
     max-height: none;
   }
-  .fc-id {
+  .fc-lab {
     display: none;
   }
   .fc-steps {
@@ -4902,11 +4907,6 @@ html.intro-lock .animated-nav-logo *,
   .fc-head {
     transition: none;
   }
-}
-.fc[data-static] {
-  --sheet: 1;
-  --split: 1;
-  --ok: 1;
 }
 
 /* ===== Emergency: Unbox (a crate opens, a school unfolds from it) ===== */
@@ -5123,6 +5123,9 @@ html.intro-lock .animated-nav-logo *,
 .sb:after {
   display: none;
 }
+/* */
+
+/* */
 /* */
 
 /* */
