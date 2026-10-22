@@ -5410,7 +5410,7 @@ html.intro-lock .animated-nav-logo *,
   top: 11%;
   translate: -50% 0;
   height: 80svh;
-  aspect-ratio: 520 / 810;
+  aspect-ratio: 520 / 780;
   overflow: visible;
 }
 .pl-paper {
@@ -5636,11 +5636,14 @@ html.intro-lock .animated-nav-logo *,
     white-space: normal;
   }
   .pl {
-    --pt: 168px;
-    --ph: min(41svh, calc(100svh - var(--pt) - 226px));
+    --pt: 152px;
+    --ph: min(50svh, calc(100svh - var(--pt) - 186px));
   }
   [dir="rtl"] .pl {
-    --pt: 186px;
+    --pt: 170px;
+  }
+  .pl-title {
+    font-size: 16.5px;
   }
   .pl-sheet {
     top: var(--pt);
@@ -5682,6 +5685,10 @@ html.intro-lock .animated-nav-logo *,
 /* */
 
 /* */
+/* */
+
+/* */
+
 /* */
 
 /* */

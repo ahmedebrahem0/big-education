@@ -8,12 +8,12 @@ import { clamp, useScrub, win } from "./use-scrub";
 // ---------- a pledge sheet: a rubber stamp presses each of the eight values onto it, then the BIG seal ----------
 const N = 8;
 const VW = 520;
-const VH = 810;
+const VH = 780;
 const START = (k: number) => 0.03 + k * 0.095;
 const LEN = 0.092;
 const SIGN: [number, number] = [0.79, 0.86];
 const FINAL: [number, number] = [0.86, 0.97];
-const SEAL_BIG = { x: 260, y: 742, r: 52 };
+const SEAL_BIG = { x: 260, y: 714, r: 52 };
 
 // centre of the seal: two columns of four cells, seal beside its title
 const slotXY = (k: number, rtl: boolean): [number, number] => {
@@ -214,9 +214,9 @@ export function ValuesPledge({ locale }: { locale: Locale }) {
             <path
               pathLength={1}
               className="pl-sign"
-              d={`M${sigX(56)} 764C${sigX(70)} 730 ${sigX(86)} 732 ${sigX(92)} 756C${sigX(98)} 774 ${sigX(112)} 730 ${sigX(126)} 744C${sigX(138)} 756 ${sigX(150)} 748 ${sigX(172)} 736`}
+              d={`M${sigX(56)} 734C${sigX(70)} 700 ${sigX(86)} 702 ${sigX(92)} 726C${sigX(98)} 744 ${sigX(112)} 700 ${sigX(126)} 714C${sigX(138)} 726 ${sigX(150)} 718 ${sigX(172)} 706`}
             />
-            <path d={`M${sigX(48)} 780H${sigX(190)}`} className="pl-rule" />
+            <path d={`M${sigX(48)} 750H${sigX(190)}`} className="pl-rule" />
 
             <g className="pl-seal pl-big" style={{ "--ps": "var(--s8)" } as CSSProperties}>
               <circle cx={SEAL_BIG.x} cy={SEAL_BIG.y} r={SEAL_BIG.r} className="pl-ring" />
