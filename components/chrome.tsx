@@ -261,7 +261,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <Link href={`/${locale}#vision`}>{c.nav[1]}</Link>
           <Link href={`/${locale}#emergency`}>{c.nav[2]}</Link>
           <Link href={`/${locale}#values`}>{ar ? c.valuesLabel : "Our commitment"}</Link>
-          <Link href={`/${locale}#contact`}>{c.nav[3]}</Link>
+          {/* <Link href={`/${locale}#contact`}>{c.nav[3]}</Link> */}
         </nav>
         <div className="footer-col">
           <span>BIG GROUP</span>
