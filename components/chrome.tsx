@@ -272,7 +272,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} {c.rights}</span>
+        <span>© 2026 {c.rights}</span>
         <span>{c.concept}</span>
         <span>{ar ? "مصر · إلى العالم" : "EGYPT · BUILT FOR THE WORLD"}</span>
         <a
