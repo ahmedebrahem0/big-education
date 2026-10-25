@@ -251,7 +251,7 @@ function Journey({ locale }: { locale: Locale }) {
           </g>
 
           <g ref={mark} className="cn-mark">
-            <g transform="scale(0.3) translate(-104 -245)">
+            <g transform={`scale(${rtl ? -0.3 : 0.3} 0.3) translate(-104 -245)`}>
               <path d={MARK_A} />
               <path d={MARK_B} />
             </g>
