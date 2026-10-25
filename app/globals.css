@@ -6814,3 +6814,16 @@ html.intro-lock .animated-nav-logo *,
   }
 }
 /* */
+
+/* Footer logo: light ink on the dark footer */
+.footer-logo .animated-nav-logo path[fill="#153d42"] {
+  fill: #f2f0e9;
+  stroke: #f2f0e9;
+}
+.footer-logo .animated-nav-logo path[fill="#287373"] {
+  fill: #3b928c;
+  stroke: #3b928c;
+}
+.footer-col a:not([href^="mailto"]):not([href^="tel"]):not([target]) {
+  width: fit-content;
+}

@@ -257,6 +257,8 @@ export function Footer({ locale }: { locale: Locale }) {
           <span>{ar ? "استكشف" : "EXPLORE"}</span>
           <Link href={`/${locale}#solutions`}>{c.nav[0]}</Link>
           <Link href={`/${locale}#vision`}>{c.nav[1]}</Link>
+          <Link href={`/${locale}#emergency`}>{c.nav[2]}</Link>
+          <Link href={`/${locale}#values`}>{ar ? c.valuesLabel : "Our commitment"}</Link>
           <Link href={`/${locale}#contact`}>{c.nav[3]}</Link>
         </nav>
         <div className="footer-col">
@@ -268,9 +270,9 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {c.rights}</span>
+        <span>© {new Date().getFullYear()} {c.rights}</span>
         <span>{c.concept}</span>
-        <span>EGYPT · {ar ? "إلى العالم" : "BUILT FOR THE WORLD"}</span>
+        <span>{ar ? "مصر · إلى العالم" : "EGYPT · BUILT FOR THE WORLD"}</span>
         <a
           className="back-top"
           href="#main"
