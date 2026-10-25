@@ -20,6 +20,7 @@ export function Header({ locale }: { locale: Locale }) {
     ["solutions", c.nav[0]],
     ["vision", c.nav[1]],
     ["emergency", c.nav[2]],
+    ["values", locale === "ar" ? c.valuesLabel : "Our commitment"],
   ];
   // Which nav link owns each page section (scrollspy).
   const owner: Record<string, string> = {
@@ -31,6 +32,7 @@ export function Header({ locale }: { locale: Locale }) {
     media: "solutions",
     factory: "solutions",
     emergency: "emergency",
+    values: "values",
   };
   const current = owner[section];
 
