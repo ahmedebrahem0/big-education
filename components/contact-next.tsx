@@ -107,7 +107,7 @@ const ICONS = [
   "M-9 -16V12M-9 0H9M9 0V12M-9 12H9M6 -16V0",
   "M-14 -8L0 -16L14 -8V8L0 16L-14 8ZM-14 -8L0 0L14 -8M0 0V16",
   "M0 -16A16 16 0 1 0 0.1 -16M-7 0l5 6 9-11",
-  "M0 -14v28M-14 0h28",
+  "M-16 15H16M-11 15V0M11 15V0M-15 0L0 -9L15 0ZM-3 15V7h6v8M0 -9V-20L8 -17L0 -14",
 ];
 
 function Journey({ locale }: { locale: Locale }) {
