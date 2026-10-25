@@ -53,7 +53,7 @@ const BALL = (() => {
 
 const UI = {
   en: {
-    steps: ["Spaces", "Media", "Factory", "Emergency", "Values", "Your project"],
+    steps: ["Understand", "Design", "Manufacture", "Deliver", "Support", "Your project"],
     bubble: "Your project is the next step",
     title: "Tell us what’s on your mind.",
     plan: "What are you planning?",
@@ -71,7 +71,7 @@ const UI = {
     close: "Close",
   },
   ar: {
-    steps: ["المساحات", "الإعلام", "المصنع", "الطوارئ", "القيم", "مشروعك"],
+    steps: ["نفهم", "نصمم", "نصنّع", "نجهّز", "ندعم", "مشروعك"],
     bubble: "مشروعك هو الخطوة القادمة",
     title: "حدّثنا عمّا يدور في ذهنك.",
     plan: "ما الذي تخطط له؟",
@@ -103,9 +103,9 @@ const HOP_LEN = 0.12;
 
 const ICONS = [
   "M0 -16A16 16 0 1 0 0.1 -16M0 -22v5M0 17v5M-22 0h5M17 0h5M0 -2a2 2 0 1 0 0.1 0",
-  "M-20 0h9l5-12 10 24 5-12h12",
+  "M-16 14V-14L16 14ZM-16 14h32M-16 4h8",
   "M-9 -16V12M-9 0H9M9 0V12M-9 12H9M6 -16V0",
-  "M-18 -9h36v20h-36zM-18 -2h36M-6 -9v20M6 -9v20",
+  "M-14 -8L0 -16L14 -8V8L0 16L-14 8ZM-14 -8L0 0L14 -8M0 0V16",
   "M0 -16A16 16 0 1 0 0.1 -16M-7 0l5 6 9-11",
   "M0 -14v28M-14 0h28",
 ];
