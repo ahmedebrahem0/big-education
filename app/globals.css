@@ -2660,18 +2660,23 @@ html.intro-lock .animated-nav-logo *,
   inset-inline-end: 3.5vw;
   top: 50%;
   direction: ltr;
-  translate: calc(var(--p, 0) * -3vw) -50%;
+  translate: 0 -50%;
   pointer-events: none;
 }
 .story-year span {
   display: block;
-  font-size: clamp(110px, 20vw, 330px);
+  font-size: clamp(110px, 17.5vw, 300px);
   font-weight: 800;
   line-height: 0.85;
   letter-spacing: -0.03em;
-  color: rgba(182, 212, 202, 0.11);
-  background: linear-gradient(0deg, var(--mint), var(--bright)) no-repeat bottom /
-    100% calc(var(--yf, 0) * 100%);
+  font-variant-numeric: tabular-nums;
+  color: rgba(182, 212, 202, 0.1);
+  background: linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--teal), var(--mint) calc(var(--yf, 0) * 100%)),
+      color-mix(in srgb, var(--teal), var(--bright) calc(var(--yf, 0) * 100%))
+    )
+    no-repeat bottom / 100% calc((0.22 + var(--yf, 0) * 0.78) * 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -2867,7 +2872,7 @@ html.intro-lock .animated-nav-logo *,
   inset-inline-end: auto;
   right: auto;
   left: 3.5vw;
-  translate: calc(var(--p, 0) * 3vw) -50%;
+  translate: 0 -50%;
 }
 @media (max-width: 760px) {
   [dir="rtl"] .story-year {
@@ -6829,3 +6834,4 @@ html.intro-lock .animated-nav-logo *,
 .footer-col a:not([href^="mailto"]):not([href^="tel"]):not([target]) {
   width: fit-content;
 }
+/* */
