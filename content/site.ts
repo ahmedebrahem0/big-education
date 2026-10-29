@@ -186,7 +186,8 @@ export const copy = {
       "Three-stage quality control",
     ],
     emergencyLabel: "05 / EDUCATION WITHOUT BOUNDARIES",
-    emergencyTitle: "A box of possibilities.\nA future of learning.",
+    // emergencyTitle: "A box of possibilities.\nA future of learning.",
+    emergencyTitle: "BIG SCHOOL IN A BOX",
     emergencyText:
       "BIG SCHOOL IN A BOX is our plug-and-play logistical solution for educational continuity in crisis and disaster zones. One integrated idea, built around the right to keep learning.",
     valuesLabel: "OUR COMMITMENT",
