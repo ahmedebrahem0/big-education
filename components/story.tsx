@@ -44,10 +44,10 @@ export function Story({ locale }: { locale: Locale }) {
     let raf = 0;
     const apply = (t: number) => {
       el.style.setProperty("--p", t.toFixed(4));
-      const count = clamp(t / 0.4);
-      y.textContent = fmt.format(
-        Math.round(2000 + 18 * (1 - Math.pow(1 - count, 3))),
-      );
+      // 2018 -> 2026 across the whole scene; the colour fill follows the same progress
+      const count = clamp((t - 0.04) / 0.84);
+      el.style.setProperty("--yf", count.toFixed(4));
+      y.textContent = fmt.format(2018 + Math.round(8 * count));
       p.style.strokeDashoffset = String(1 - t);
       const pt = p.getPointAtLength(len * t);
       h.setAttribute(
