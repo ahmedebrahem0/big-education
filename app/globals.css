@@ -6835,3 +6835,13 @@ html.intro-lock .animated-nav-logo *,
   width: fit-content;
 }
 /* */
+
+/* Footer: keep long links on one line (social.big-egypt.com) */
+@media (min-width: 901px) {
+  .footer-cols {
+    grid-template-columns: 1.15fr 1.45fr 0.95fr 0.95fr auto;
+  }
+  .footer-col a {
+    white-space: nowrap;
+  }
+}
