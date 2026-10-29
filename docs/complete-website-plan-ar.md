@@ -122,7 +122,7 @@
 - صياغة عربية تسويقية معتمدة، لا ترجمة آلية حرفية للبروفايل.
 - ملف بيانات واحد قابل للتعديل للشعار النصي، الخدمات، الروابط، بيانات التواصل والمشاريع.
 - بيانات البروفايل: `info@big-education-egypt.com`، `010 44 2222 82`، `010 44 2222 84`.
-- مواقع البروفايل: `www.big-education-egypt.com`، `www.big-school-in-a-box.com`، `www.big-egypt.com`.
+- مواقع البروفايل: `www.big-education-egypt.com`، `www.big-school-in-a-box.com`، `https://social.big-egypt.com/`.
 - placeholders للعنوان والسوشيال والمشاريع والأرقام فقط في ملفات المحتوى الداخلية؛ لا تعرض كلمة placeholder للزائر.
 
 ## الأصول المطلوبة للإخراج النهائي
