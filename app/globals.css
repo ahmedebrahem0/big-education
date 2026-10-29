@@ -3981,7 +3981,7 @@ html.intro-lock .animated-nav-logo *,
   pointer-events: none;
 }
 .dl-label text {
-  font-size: 28px;
+  font-size: 23px;
   font-weight: 500;
   fill: var(--fg);
   opacity: 0.38;
@@ -3994,7 +3994,7 @@ html.intro-lock .animated-nav-logo *,
 }
 .dl-label[data-on="true"] text {
   opacity: 1;
-  font-size: 32px;
+  font-size: 27px;
   fill: var(--ac);
   font-weight: 650;
 }
@@ -4078,10 +4078,10 @@ html.intro-lock .animated-nav-logo *,
     top: 76%;
   }
   .dl-label text {
-    font-size: 27px;
+    font-size: 23px;
   }
   .dl-label[data-on="true"] text {
-    font-size: 30px;
+    font-size: 26px;
   }
   .dl-chap {
     display: none;
@@ -4170,10 +4170,10 @@ html.intro-lock .animated-nav-logo *,
     top: 78%;
   }
   .dl-label text {
-    font-size: 27px;
+    font-size: 23px;
   }
   .dl-label[data-on="true"] text {
-    font-size: 31px;
+    font-size: 26px;
   }
   .dl-chap {
     display: none;

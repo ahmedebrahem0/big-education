@@ -27,6 +27,11 @@ const R = 900;
 const STEP = 34; // degrees between neighbouring spaces
 const GAP = 14; // extra degrees between chapters
 const N = 9;
+// Arc of radius r through the origin, centred on (0, r) so text follows the wheel rim.
+const arc = (r: number, half: number) => {
+  const y = r - Math.sqrt(r * r - half * half);
+  return `M ${-half} ${y.toFixed(1)} A ${r} ${r} 0 0 1 ${half} ${y.toFixed(1)}`;
+};
 const theta = (i: number) => i * STEP + Math.floor(i / 3) * GAP;
 const HOLD = 0.58; // share of each item's scroll the wheel rests before turning
 
@@ -333,6 +338,10 @@ export function SpacesDial({ locale }: { locale: Locale }) {
         <i className="dl-pin" aria-hidden="true" />
         <div className="dl-wheel" aria-hidden="true" style={{ pointerEvents: "none" }}>
           <svg viewBox="-1000 -1000 2000 2000">
+            <defs>
+              <path id="dl-arc" d={arc(R - 84, 500)} />
+              <path id="dl-arc-chap" d={arc(R - 340, 460)} />
+            </defs>
             <circle r={R} className="dl-rim" />
             <circle r={R - 130} className="dl-rim dl-thin" />
             <circle r={R - 520} className="dl-rim dl-thin" />
@@ -357,7 +366,11 @@ export function SpacesDial({ locale }: { locale: Locale }) {
                 data-far={Math.abs(i - active) > 2}
                 onClick={() => jump.current(i)}
               >
-                <text textAnchor="middle">{name}</text>
+                <text textAnchor="middle">
+                  <textPath href="#dl-arc" startOffset="50%">
+                    {name}
+                  </textPath>
+                </text>
               </g>
             ))}
             {c.filters.map((f, k) => (
@@ -366,7 +379,11 @@ export function SpacesDial({ locale }: { locale: Locale }) {
                 transform={`rotate(${(theta(k * 3) + theta(k * 3 + 2)) / 2}) translate(0 ${-(R - 340)})`}
                 className="dl-chap"
               >
-                <text textAnchor="middle">{f}</text>
+                <text textAnchor="middle">
+                  <textPath href="#dl-arc-chap" startOffset="50%">
+                    {f}
+                  </textPath>
+                </text>
               </g>
             ))}
           </svg>
