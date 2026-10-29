@@ -4,7 +4,7 @@ export const contact = {
   // recipient of the contact form (test inbox for now)
   formTo: "amezo2866@gmail.com",
   phones: ["01044222282", "01044222284"],
-  group: "https://www.big-egypt.com",
+  group: "https://social.big-egypt.com/",
   emergency: "https://www.big-school-in-a-box.com",
 };
 export const paths = [""];

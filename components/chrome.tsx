@@ -266,7 +266,7 @@ export function Footer({ locale }: { locale: Locale }) {
         <div className="footer-col">
           <span>BIG GROUP</span>
           <a href={contact.group} target="_blank" rel="noreferrer">
-            big-egypt.com
+            social.big-egypt.com
             <ArrowUpRight size={15} />
           </a>
         </div>
