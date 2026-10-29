@@ -2671,7 +2671,7 @@ html.intro-lock .animated-nav-logo *,
   letter-spacing: -0.03em;
   color: rgba(182, 212, 202, 0.11);
   background: linear-gradient(0deg, var(--mint), var(--bright)) no-repeat bottom /
-    100% calc(clamp(0, (var(--p, 0) - 0.3) * 2.5, 1) * 100%);
+    100% calc(var(--yf, 0) * 100%);
   -webkit-background-clip: text;
   background-clip: text;
 }
