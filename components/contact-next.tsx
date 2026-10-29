@@ -65,6 +65,8 @@ const UI = {
     contactUs: "Contact us",
     to: "To",
     subject: "Project enquiry",
+    waTitle: "BIG Education — Project enquiry",
+    waTopic: "Topic",
     from: "From",
     placeholder: "Your message will appear here as you write it.",
     peek: "Preview your message",
@@ -83,6 +85,8 @@ const UI = {
     contactUs: "تواصل معنا",
     to: "إلى",
     subject: "استفسار عن مشروع",
+    waTitle: "BIG Education — استفسار عن مشروع",
+    waTopic: "الموضوع",
     from: "من",
     placeholder: "ستظهر رسالتك هنا وأنت تكتبها.",
     peek: "معاينة رسالتك",
@@ -295,10 +299,18 @@ function Brief({ locale }: { locale: Locale }) {
   const empty = !name && !org && !msg && picked.length === 0;
   const state = phase === "flying" ? "fold" : phase === "sent" || empty ? "ball" : "letter";
   const chosen = picked.map((i) => ui.opts[i]).join(", ");
-  const subject = "BIG Education — Project enquiry";
-  const to = contact.formTo;
-  const body = `${chosen ? chosen + "\r\n\r\n" : ""}${msg}\r\n\r\n${name}\r\n${org}`.trim();
-  const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const to = contact.whatsappLabel;
+  // the whole letter, with every detail the visitor filled in, as one WhatsApp message
+  const text = [
+    ui.waTitle,
+    chosen && `${ui.waTopic}: ${chosen}`,
+    name && `${c.name}: ${name}`,
+    org && `${c.organization}: ${org}`,
+    msg && `\n${msg}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(text)}`;
 
   function toggle(i: number) {
     setPicked((p) => (p.includes(i) ? p.filter((v) => v !== i) : [...p, i]));
@@ -372,10 +384,12 @@ function Brief({ locale }: { locale: Locale }) {
     requestAnimationFrame(step);
   }
 
-  // open the mail app right inside the click: phones drop mailto links that fire after a delay
-  function openMail() {
+  // open WhatsApp right inside the click: phones drop links that fire after a delay
+  function openWhatsApp() {
     const a = document.createElement("a");
-    a.href = mailto;
+    a.href = whatsapp;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
     a.style.display = "none";
     document.body.appendChild(a);
     a.click();
@@ -385,7 +399,7 @@ function Brief({ locale }: { locale: Locale }) {
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (phase !== "idle") return;
-    openMail();
+    openWhatsApp();
     setOpen(false);
     if (reduced) {
       setPhase("sent");
@@ -461,7 +475,7 @@ function Brief({ locale }: { locale: Locale }) {
               <strong>{ui.sentTitle}</strong>
               <p>{c.formReady}</p>
               <div className="cn-sent-row">
-                <a className="button" href={mailto}>
+                <a className="button" href={whatsapp} target="_blank" rel="noopener noreferrer">
                   {c.send}
                   <ArrowUpRight size={19} />
                 </a>

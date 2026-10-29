@@ -1,8 +1,9 @@
 export type Locale = "en" | "ar";
 export const contact = {
   email: "info@big-education-egypt.com",
-  // recipient of the contact form (test inbox for now)
-  formTo: "amezo2866@gmail.com",
+  // the contact form opens a WhatsApp chat with this number (international format, digits only)
+  whatsapp: "201044222284",
+  whatsappLabel: "+20 104 422 2284",
   phones: ["01044222282", "01044222284"],
   group: "https://social.big-egypt.com/",
   emergency: "https://www.big-school-in-a-box.com",
@@ -239,11 +240,11 @@ export const copy = {
     name: "Your name",
     organization: "Organization",
     message: "Tell us about your project",
-    send: "Open email draft",
+    send: "Send on WhatsApp",
     formNote:
-      "This opens your email app with your message. Nothing is submitted through this website.",
+      "This opens WhatsApp with your message ready to send. Nothing is submitted through this website.",
     formReady:
-      "Your email draft is ready in your email app. You can also email us directly below.",
+      "Your message is ready in WhatsApp. Press send there to deliver it.",
     external: "Explore the dedicated website",
     back: "Back to home",
     notFound: "This page is still beyond the horizon.",
@@ -409,11 +410,11 @@ export const copy = {
     name: "اسمك",
     organization: "المؤسسة",
     message: "حدثنا عن مشروعك",
-    send: "افتح مسودة البريد",
+    send: "أرسل عبر واتساب",
     formNote:
-      "يفتح هذا الزر تطبيق البريد برسالتك. لا يتم إرسال بيانات من خلال الموقع.",
+      "يفتح هذا الزر واتساب برسالتك جاهزة للإرسال. لا يتم إرسال بيانات من خلال الموقع.",
     formReady:
-      "مسودة رسالتك جاهزة في تطبيق البريد. يمكنك أيضًا مراسلتنا مباشرة بالعنوان أدناه.",
+      "رسالتك جاهزة في واتساب. اضغط إرسال هناك لتصل إلينا.",
     external: "اكتشف الموقع المتخصص",
     back: "العودة للرئيسية",
     notFound: "هذه الصفحة خارج المسار الحالي.",
