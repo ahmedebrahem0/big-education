@@ -2580,14 +2580,15 @@ html.intro-lock .animated-nav-logo *,
   display: inline-block;
   animation: strip-spin 9s linear infinite;
 }
+/* six identical sets: slide by exactly one set so the loop never shows a gap */
 @keyframes strip-run {
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% / 6));
   }
 }
 @keyframes strip-run-rtl {
   to {
-    transform: translateX(50%);
+    transform: translateX(calc(100% / 6));
   }
 }
 @keyframes strip-spin {

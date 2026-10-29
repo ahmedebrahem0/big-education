@@ -116,8 +116,8 @@ export function Home({ locale }: { locale: Locale }) {
       </HeroFx>
       <div className="brand-strip" aria-label={c.since}>
         <div className="strip-track">
-          {[0, 1].map((n) => (
-            <div className="strip-set" key={n} aria-hidden={n === 1}>
+          {Array.from({ length: 6 }, (_, n) => (
+            <div className="strip-set" key={n} aria-hidden={n > 0}>
               {[c.since, c.group, "DESIGN · BUILD · INSPIRE", "360°"].map(
                 (t) => (
                   <span key={t}>
